@@ -20,10 +20,11 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 Auth::routes();
 
 Route::group([
-    'prefix' => LaravelLocalization::setLocale(),
+    'prefix' => LaravelLocalization::setLocale().'/admin',
     'middleware' => ['auth']
 ],function () {
     Route::get('/', function () {return view('dashboard.dashboard');});
     Route::resource('table' , TableController::class);
+    Route::put('status/table/{id}', [TableController::class , 'status']);
 });
 

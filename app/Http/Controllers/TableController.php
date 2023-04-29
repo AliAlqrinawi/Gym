@@ -21,14 +21,6 @@ class TableController extends Controller
             $data = Table::where('parent_id' , null)->get();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('status', function ($row) {
-                    if ($row->status == 'active') {
-                        $status = '<button class="modal-effect btn btn-sm btn-success" style="margin: 5px" id="status" data-id="' . $row->id . '" ><i class=" icon-check"></i></button>';
-                    } else {
-                        $status = '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="status" data-id="' . $row->id . '" ><i class=" icon-check"></i></button>';
-                    }
-                    return $status;
-                })
                 ->addColumn('title', function ($row) {
                     if(App::getLocale() == 'en'){
                         $title = $row->title_en;
@@ -45,12 +37,24 @@ class TableController extends Controller
                     }
                     return $description;
                 })
+                ->addColumn('status', function ($row) {
+                    if ($row->status == 'active') {
+                        $status = '<button class="modal-effect btn btn-sm btn-success" style="margin: 5px" id="status" data-id="' . $row->id . '" ><i class=" icon-check"></i></button>';
+                    } else {
+                        $status = '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="status" data-id="' . $row->id . '" ><i class=" icon-check"></i></button>';
+                    }
+                    return $status;
+                })
                 ->addColumn('action', function ($row) {
                     $btn = '<a class="modal-effect btn btn-sm btn-secondary" style="margin: 5px" href="' . url('business.index') . '?table=' . $row->id . '"><i class="las la-clipboard"></i></a>';
                     $btn = $btn . '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditTable" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
                     $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteTable" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;
                 })
+                ->rawColumns([
+                    'status' => 'status',
+                    'action' => 'action',
+                ])
                 ->make(true);
         }
         return view('dashboard.views-dash.table.index');
@@ -80,12 +84,12 @@ class TableController extends Controller
             'title_ar' => 'required|string|min:3|max:255',
             'description_en' => 'required|string|min:3|max:255',
             'description_ar' => 'required|string|min:3|max:255',
-            'status' => 'required|in:ACTIVE,NACTIVE',
+            'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {
             $table = Table::create($tableData);
             $response = [
-                'message' => 'Added successfully',
+                'message' => __('Added successfully'),
                 'status' => 200,
             ];
             return ControllersService::responseSuccess($response);
@@ -120,14 +124,14 @@ class TableController extends Controller
         $table = Table::find($id);
         if ($table) {
             $response = [
-                'message' => 'Found Data',
+                'message' => __('success'),
                 'status' => 200,
                 'data' => $table
             ];
             return ControllersService::responseSuccess($response);
         } else {
             $response = [
-                'message' => 'Not Found Data',
+                'message' => __('Not Found Data'),
                 'status' => 400,
             ];
             return ControllersService::responseErorr($response);
@@ -149,12 +153,12 @@ class TableController extends Controller
             'title_ar' => 'required|string|min:3|max:255',
             'description_en' => 'required|string|min:3|max:255',
             'description_ar' => 'required|string|min:3|max:255',
-            'status' => 'required|in:ACTIVE,NACTIVE',
+            'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {
             $table = Table::find($id)->update($tableData);
             $response = [
-                'message' => 'Added successfully',
+                'message' => __('Updated successfully'),
                 'status' => 200,
             ];
             return ControllersService::responseSuccess($response);
@@ -179,13 +183,13 @@ class TableController extends Controller
         if ($table) {
             $table->delete();
             $response = [
-                'message' => 'Deleted successfully',
+                'message' => __('Deleted successfully'),
                 'status' => 200,
             ];
             return ControllersService::responseSuccess($response);
         } else {
             $response = [
-                'message' => 'Not Found Data',
+                'message' => __('Not Found Data'),
                 'status' => 400,
             ];
             return ControllersService::responseErorr($response);
@@ -198,13 +202,13 @@ class TableController extends Controller
         if ($table) {
             $table->changeStatus();
             $response = [
-                'message' => 'Updated successfully',
+                'message' => __('Updated successfully'),
                 'status' => 200,
             ];
             return ControllersService::responseSuccess($response);
         } else {
             $response = [
-                'message' => 'Not Found Data',
+                'message' => __('Not Found Data'),
                 'status' => 400,
             ];
             return ControllersService::responseErorr($response);
