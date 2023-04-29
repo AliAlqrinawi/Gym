@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TableController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -23,5 +24,6 @@ Route::group([
     'middleware' => ['auth']
 ],function () {
     Route::get('/', function () {return view('dashboard.dashboard');});
+    Route::resource('table' , TableController::class);
 });
 

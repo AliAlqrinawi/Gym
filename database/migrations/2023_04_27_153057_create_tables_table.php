@@ -18,10 +18,11 @@ return new class extends Migration
             $table->foreignId('parent_id')->nullable()->constrained('tables', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('title_ar');
 			$table->string('title_en');
-            $table->string('description_ar');
-			$table->string('description_en');
-			$table->string('image');
-            $table->text('id_videos');
+            $table->string('description_ar')->nullable();
+			$table->string('description_en')->nullable();
+			$table->string('image')->nullable();
+            $table->text('id_videos')->nullable();
+            $table->enum('status' , ['active' , 'inactive'])->default('active');
             $table->timestamps();
         });
     }

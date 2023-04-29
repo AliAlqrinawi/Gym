@@ -554,8 +554,6 @@
     <a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
 
     @include('dashboard.layouts.js')
-    </div>
-    <div class="main-navbar-backdrop"></div>
 </body>
 
 </html>

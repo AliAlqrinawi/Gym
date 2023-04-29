@@ -72,7 +72,7 @@
                                     <div class="d-flex wd-100p">
                                         <div class="main-img-user"><img alt="" src="{{ asset('dashboard/img/users/6.jpg') }}" class=""></div>
                                         <div class="ms-3 my-auto">
-                                            <h6>Petey Cruiser</h6><span>Premium Member</span>
+                                            <h6>{{ auth()->user()->name }}</h6><span>{{ auth()->user()->email }}</span>
                                         </div>
                                     </div>
                                 </div>
