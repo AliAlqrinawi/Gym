@@ -181,3 +181,9 @@ $(document).on('click', '#status', function (e) {
         }
     });
 });
+
+//  close action
+$(document).on('click', '#close', function (e) {
+    e.preventDefault();
+    $('#formTableAdd')[0].reset();
+});
