@@ -34,6 +34,9 @@
 <!-- custom js -->
 <script src="{{ asset('dashboard/js/custom.js') }}"></script>
 
+<!--Internal  index js -->
+<script src="{{ asset('dashboard/js/index.js') }}"></script>
+
 <!-- switcher-styles js -->
 <script src="{{ asset('dashboard/js/swither-styles.js') }}"></script>
 
