@@ -21,6 +21,7 @@ return new class extends Migration
 			$table->string('description_en');
             $table->string('title_duration_ar');
 			$table->string('title_duration_en');
+			$table->text('options');
 			$table->string('duration');
 			$table->string('price');
             $table->enum('status' , ['active' , 'inactive'])->default('active');

@@ -32,7 +32,7 @@
                                 <div class="dropdown-menu dropdown-menu-start  dropdown-menu-arrow">
                                     @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                                     <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" rel="alternate" hreflang="{{ $localeCode }}" class="dropdown-item d-flex ">
-                                        <span class="avatar me-1 align-self-center bg-transparent"><img src="{{ asset('dashboard/img/flag-imgs/french_flag.jpg') }}" alt="img"></span>
+                                        <span class="avatar me-1 align-self-center bg-transparent"><img src="{{ $localeCode == 'en' ? asset('dashboard/img/flag-imgs/us_flag.jpg') : asset('dashboard/img/flag-imgs/kuwait_flag.png') }}" alt="img"></span>
                                         <div class="d-flex">
                                             <span class="mt-2">{{ $properties['native'] }}</span>
                                         </div>

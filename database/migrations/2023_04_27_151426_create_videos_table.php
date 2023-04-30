@@ -24,6 +24,7 @@ return new class extends Migration
 			$table->string('video');
 			$table->enum('type' , ['home' , 'gym'])->default('gym');
 			$table->string('alternative_video');
+            $table->enum('status' , ['active' , 'inactive'])->default('active');
             $table->timestamps();
         });
     }
