@@ -1,13 +1,19 @@
 let host = document.location;
 
 let VideoUrl = new URL('/admin/video', host.origin);
+let pathSegments = host.pathname.split('/');
+let currentLang = pathSegments[1];
+if(currentLang != 'ar' || currentLang != 'en'){
+    currentLang = 'en';
+}
+
 var video = $('#get_video').DataTable({
     processing: true,
     ajax: VideoUrl,
     columns: [
         {data: "DT_RowIndex", name: "DT_RowIndex"},
         {data: "image", name: "image"},
-        {data: "title", name: "title"},
+        {data: "title", name: "title_"+currentLang},
         {data: "status", name: "status"},
         {data: "action", name: "action"},
     ]

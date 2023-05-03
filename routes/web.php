@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\DayTableController;
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TableController;
@@ -29,9 +31,11 @@ Route::group([
     'prefix' => LaravelLocalization::setLocale().'/admin',
     'middleware' => ['auth']
 ],function () {
-    Route::get('/', function () {return view('dashboard.dashboard');});
+    Route::get('/', function () {return view('dashboard.dashboard');})->name('home');
     Route::resource('table' , TableController::class);
     Route::put('status/table/{id}', [TableController::class , 'status']);
+    Route::resource('dayTable' , DayTableController::class);
+    Route::put('status/dayTable/{id}', [DayTableController::class , 'status']);
     Route::resource('exercise' , ExerciseController::class);
     Route::put('status/exercise/{id}', [ExerciseController::class , 'status']);
     Route::resource('video' , VideoController::class);
@@ -40,6 +44,8 @@ Route::group([
     Route::put('status/coupon/{id}', [CouponController::class , 'status']);
     Route::resource('package' , PackageController::class);
     Route::put('status/package/{id}', [PackageController::class , 'status']);
+    Route::resource('layout' , LayoutController::class);
+    Route::put('status/layout/{id}', [PackageController::class , 'status']);
     Route::resource('setting', SettingsController::class)->only(['index' , 'update']);
 });
 

@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
-class TableController extends Controller
+class DayTableController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,24 +18,12 @@ class TableController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Table::where('parent_id', null)->select('*');
+            $data = Table::where('parent_id', '!=' , null)->select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('title', function ($row) {
-                    if (App::getLocale() == 'en') {
-                        $row->title_en;
-                    } else {
-                        $row->title_ar;
-                    }
-                    return $row->title_en;
-                })
-                ->addColumn('description', function ($row) {
-                    if (App::getLocale() == 'en') {
-                        $description = Str::limit($row->description_en, 10, ' ...?');
-                    } else {
-                        $description = Str::limit($row->description_ar, 10, ' ...?');
-                    }
-                    return $description;
+                ->addColumn('image', function ($row) {
+                    $image = '<img src="' . asset('/') . $row->image . '" alt="image" width="50" height="50">';
+                    return $image;
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == 'active') {
@@ -46,30 +34,18 @@ class TableController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a class="modal-effect btn btn-sm btn-secondary" style="margin: 5px" href="' . url('business.index') . '?table=' . $row->id . '"><i class="las la-clipboard"></i></a>';
-                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditTable" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
-                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteTable" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
+                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditDayTable" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
+                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteDayTable" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;
                 })
-                // ->filter(function ($q) use ($request) {
-                //     if ($request->status == 'active' || $request->status == 'inactive') {
-                //         $q->where('status', $request->status);
-                //     }
-                    // if (!empty($request->get('search'))) {
-                    //     $instance->where(function ($w) use ($request) {
-                    //         $search = $request->get('search');
-                    //         $w->orWhere('name', 'LIKE', "%$search%")
-                    //             ->orWhere('email', 'LIKE', "%$search%");
-                    //     });
-                    // }
-                // })
                 ->rawColumns([
+                    'image' => 'image',
                     'status' => 'status',
                     'action' => 'action',
                 ])
                 ->make(true);
         }
-        return view('dashboard.views-dash.table.index');
+        return view('dashboard.views-dash.dayTable.index');
     }
 
     /**
@@ -90,16 +66,26 @@ class TableController extends Controller
      */
     public function store(Request $request)
     {
-        $tableData = $request->all();
-        $validator = Validator($tableData, [
+        $dayTableData = $request->all();
+        $validator = Validator($dayTableData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
             'description_en' => 'required|string|min:3|max:255',
             'description_ar' => 'required|string|min:3|max:255',
+            'image' => 'required|image',
+            'id_videos' =>  'required|exists:videos,id',
+            'parent_id' => 'required|exists:tables,id',
             'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {
-            $table = Table::create($tableData);
+            if($request->hasFile('image')) {
+                $name = Str::random(12);
+                $image = $request->file('image');
+                $imageName = $name . time() . '_' . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('image'), $imageName);
+                $dayTableData['image'] = 'image/' . $imageName;
+            }
+            $dayTable = Table::create($dayTableData);
             $response = [
                 'message' => __('Added successfully'),
                 'status' => 200,
@@ -133,12 +119,12 @@ class TableController extends Controller
      */
     public function edit($id)
     {
-        $table = Table::find($id);
-        if ($table) {
+        $dayTable = Table::find($id);
+        if ($dayTable) {
             $response = [
                 'message' => __('success'),
                 'status' => 200,
-                'data' => $table
+                'data' => $dayTable
             ];
             return ControllersService::responseSuccess($response);
         } else {
@@ -159,16 +145,26 @@ class TableController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $tableData = $request->all();
-        $validator = Validator($tableData, [
+        $dayTableData = $request->all();
+        $validator = Validator($dayTableData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
             'description_en' => 'required|string|min:3|max:255',
             'description_ar' => 'required|string|min:3|max:255',
+            'image' => 'nullable|image',
+            'id_videos' =>  'required|exists:videos,id',
+            'parent_id' => 'required|exists:tables,id',
             'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {
-            $table = Table::find($id)->update($tableData);
+            if($request->hasFile('image')) {
+                $name = Str::random(12);
+                $image = $request->file('image');
+                $imageName = $name . time() . '_' . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('image'), $imageName);
+                $dayTableData['image'] = 'image/' . $imageName;
+            }
+            $dayTable = Table::find($id)->update($dayTableData);
             $response = [
                 'message' => __('Updated successfully'),
                 'status' => 200,
@@ -191,9 +187,9 @@ class TableController extends Controller
      */
     public function destroy($id)
     {
-        $table = Table::find($id);
-        if ($table) {
-            $table->delete();
+        $dayTable = Table::find($id);
+        if ($dayTable) {
+            $dayTable->delete();
             $response = [
                 'message' => __('Deleted successfully'),
                 'status' => 200,
@@ -210,9 +206,9 @@ class TableController extends Controller
 
     public function status($id)
     {
-        $table = Table::find($id);
-        if ($table) {
-            $table->changeStatus();
+        $dayTable = Table::find($id);
+        if ($dayTable) {
+            $dayTable->changeStatus();
             $response = [
                 'message' => __('Updated successfully'),
                 'status' => 200,

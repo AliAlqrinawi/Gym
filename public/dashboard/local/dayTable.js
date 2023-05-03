@@ -1,35 +1,38 @@
 let host = document.location;
 
-let CouponUrl = new URL('/admin/coupon', host.origin);
+let dayTableUrl = new URL('/admin/dayTable', host.origin);
 let pathSegments = host.pathname.split('/');
 let currentLang = pathSegments[1];
 if(currentLang != 'ar' || currentLang != 'en'){
     currentLang = 'en';
 }
 
-var coupon = $('#get_coupon').DataTable({
+var dayTable = $('#get_dayTable').DataTable({
     processing: true,
-    ajax: CouponUrl,
+    serverSide: true,
+    ajax: {
+        url:dayTableUrl
+    },
     columns: [
         {data: "DT_RowIndex", name: "id"},
-        {data: "code", name: "code"},
-        {data: "discount", name: "discount"},
-        {data: "end_at", name: "end_at"},
+        {data: "image", name: "image"},
+        {data: "title_"+currentLang, name: "title_"+currentLang},
         {data: "status", name: "status"},
         {data: "action", name: "action"},
     ]
 });
-//  view modal coupon
-$(document).on('click', '#ShowModalCoupon', function (e) {
+
+//  view modal dayTable
+$(document).on('click', '#ShowModalDayTable', function (e) {
     e.preventDefault();
-    $('#modalCouponAdd').modal('show');
+    $('#modalDayTableAdd').modal('show');
 });
 
-let AddUrl = new URL('admin/coupon', host.origin);
+let AddUrl = new URL('admin/dayTable', host.origin);
 // category admin
-$(document).on('click', '#addCoupon', function (e) {
+$(document).on('click', '#addDayTable', function (e) {
     e.preventDefault();
-    let formdata = new FormData($('#formCouponAdd')[0]);
+    let formdata = new FormData($('#formDayTableAdd')[0]);
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -51,20 +54,20 @@ $(document).on('click', '#addCoupon', function (e) {
                 $('#error_message').html("");
                 $('#error_message').addClass("alert alert-success");
                 $('#error_message').text(response.message);
-                $('#modalCouponAdd').modal('hide');
-                $('#formCouponAdd')[0].reset();
-                coupon.ajax.reload(null, false);
+                $('#modalDayTableAdd').modal('hide');
+                $('#formDayTableAdd')[0].reset();
+                dayTable.ajax.reload(null, false);
             }
         }
     });
 });
 
-let EditUrl = new URL('admin/coupon', host.origin);
+let EditUrl = new URL('admin/dayTable', host.origin);
 // view modification data
-$(document).on('click', '#showModalEditCoupon', function (e) {
+$(document).on('click', '#showModalEditDayTable', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
-    $('#modalCouponUpdate').modal('show');
+    $('#modalDayTableUpdate').modal('show');
     $.ajax({
         type: 'GET',
         url: EditUrl+'/' + id+'/edit',
@@ -76,19 +79,20 @@ $(document).on('click', '#showModalEditCoupon', function (e) {
                 $('#error_message').text(response.message);
             } else {
                 $('#id').val(id);
-                $('#code').val(response.data.code);
-                $('#discount').val(response.data.discount);
-                $('#end_at').val(response.data.end_at);
+                $('#title_en').val(response.data.title_en);
+                $('#title_ar').val(response.data.title_ar);
+                $('#description_en').val(response.data.description_en);
+                $('#description_ar').val(response.data.description_ar);
                 $("#status option[value='"+response.data.status+"']").prop("selected", true);
             }
         }
     });
 });
 
-let UpdateUrl = new URL('admin/coupon', host.origin);
-$(document).on('click', '#updateCoupon', function (e) {
+let UpdateUrl = new URL('admin/dayTable', host.origin);
+$(document).on('click', '#updateDayTable', function (e) {
     e.preventDefault();
-    let formdata = new FormData($('#formCouponUpdate')[0]);
+    let formdata = new FormData($('#formDayTableUpdate')[0]);
     var id = $('#id').val();
     $.ajaxSetup({
         headers: {
@@ -111,24 +115,24 @@ $(document).on('click', '#updateCoupon', function (e) {
                 $('#error_message').html("");
                 $('#error_message').addClass("alert alert-success");
                 $('#error_message').text(response.message);
-                $('#modalCouponUpdate').modal('hide');
-                $('#formCouponUpdate')[0].reset();
-                coupon.ajax.reload(null, false);
+                $('#modalDayTableUpdate').modal('hide');
+                $('#formDayTableUpdate')[0].reset();
+                dayTable.ajax.reload(null, false);
             }
         }
     });
 });
 
-let DeleteUrl = new URL('admin/coupon', host.origin);
-$(document).on('click', '#showModalDeleteCoupon', function (e) {
+let DeleteUrl = new URL('admin/dayTable', host.origin);
+$(document).on('click', '#showModalDeleteDayTable', function (e) {
     e.preventDefault();
     $('#nameDetele').val($(this).data('name'));
     var id = $(this).data('id');
-    $('#modalCouponDelete').modal('show');
+    $('#modalDayTableDelete').modal('show');
     gg(id);
 });
 function gg(id) {
-    $(document).off("click", "#deleteCoupon").on("click", "#deleteCoupon", function (e) {
+    $(document).off("click", "#deleteDayTable").on("click", "#deleteDayTable", function (e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
@@ -151,15 +155,15 @@ function gg(id) {
                     $('#error_message').html("");
                     $('#error_message').addClass("alert alert-success");
                     $('#error_message').text(response.message);
-                    $('#modalCouponDelete').modal('hide');
-                    coupon.ajax.reload(null, false);
+                    $('#modalDayTableDelete').modal('hide');
+                    dayTable.ajax.reload(null, false);
                 }
             }
         });
     });
 }
 
-let statusUrl = new URL('admin/status/coupon', host.origin);
+let statusUrl = new URL('admin/status/dayTable', host.origin);
 $(document).on('click', '#status', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
@@ -182,7 +186,7 @@ $(document).on('click', '#status', function (e) {
                     $('#error_message').html("");
                     $('#error_message').addClass("alert alert-success");
                     $('#error_message').text(response.message);
-                    coupon.ajax.reload(null, false);
+                    dayTable.ajax.reload(null, false);
                 }
         }
     });
@@ -191,5 +195,10 @@ $(document).on('click', '#status', function (e) {
 //  close action
 $(document).on('click', '#close', function (e) {
     e.preventDefault();
-    $('#formCouponAdd')[0].reset();
+    $('#formDayTableAdd')[0].reset();
 });
+
+// Filters Table
+// $('#statusFilter').change(function(){
+//     table.ajax.reload(null, false);
+// });

@@ -32,5 +32,7 @@
 <link href="{{ asset('dashboard/css/animate.css') }}" rel="stylesheet">
 @endif
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
 @yield('css')
 

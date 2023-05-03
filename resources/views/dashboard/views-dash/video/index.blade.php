@@ -1,5 +1,5 @@
 @extends('dashboard.layouts.master')
-@section('title', 'Video')
+@section('title', __('Video'))
 @section('css')
     <!-- Data table css -->
     <link href="{{ asset('assets/scss/plugins/dataTables.bootstrap5.scss') }}" rel="stylesheet" />
