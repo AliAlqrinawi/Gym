@@ -1,35 +1,36 @@
 let host = document.location;
 
-let CouponUrl = new URL('/admin/coupon', host.origin);
+let layoutUrl = new URL('/admin/layout', host.origin);
 let pathSegments = host.pathname.split('/');
 let currentLang = pathSegments[1];
-if(currentLang != 'ar' || currentLang != 'en'){
-    currentLang = 'en';
-}
-
-var coupon = $('#get_coupon').DataTable({
+// if(currentLang != 'ar' || currentLang != 'en'){
+//     currentLang = 'en';
+// }
+console.log(currentLang);
+var layout = $('#get_layout').DataTable({
     processing: true,
-    ajax: CouponUrl,
+    ajax: layoutUrl,
     columns: [
         {data: "DT_RowIndex", name: "id"},
-        {data: "code", name: "code"},
-        {data: "discount", name: "discount"},
-        {data: "end_at", name: "end_at"},
-        {data: "status", name: "status"},
+        {data: "image", name: "image"},
+        {data: "title_"+currentLang, name: "title_"+currentLang},
+        {data: "sud_title_"+currentLang, name: "sud_title_"+currentLang},
+        {data: "description_"+currentLang, name: "description_"+currentLang},
+        {data: "layout", name: "layout"},
         {data: "action", name: "action"},
     ]
 });
-//  view modal coupon
-$(document).on('click', '#ShowModalCoupon', function (e) {
+//  view modal layout
+$(document).on('click', '#ShowModalLayout', function (e) {
     e.preventDefault();
-    $('#modalCouponAdd').modal('show');
+    $('#modalLayoutAdd').modal('show');
 });
 
-let AddUrl = new URL('admin/coupon', host.origin);
+let AddUrl = new URL('admin/layout', host.origin);
 // category admin
-$(document).on('click', '#addCoupon', function (e) {
+$(document).on('click', '#addLayout', function (e) {
     e.preventDefault();
-    let formdata = new FormData($('#formCouponAdd')[0]);
+    let formdata = new FormData($('#formLayoutAdd')[0]);
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -51,20 +52,20 @@ $(document).on('click', '#addCoupon', function (e) {
                 $('#error_message').html("");
                 $('#error_message').addClass("alert alert-success");
                 $('#error_message').text(response.message);
-                $('#modalCouponAdd').modal('hide');
-                $('#formCouponAdd')[0].reset();
-                coupon.ajax.reload(null, false);
+                $('#modalLayoutAdd').modal('hide');
+                $('#formLayoutAdd')[0].reset();
+                layout.ajax.reload(null, false);
             }
         }
     });
 });
 
-let EditUrl = new URL('admin/coupon', host.origin);
+let EditUrl = new URL('admin/layout', host.origin);
 // view modification data
-$(document).on('click', '#showModalEditCoupon', function (e) {
+$(document).on('click', '#showModalEditLayout', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
-    $('#modalCouponUpdate').modal('show');
+    $('#modalLayoutUpdate').modal('show');
     $.ajax({
         type: 'GET',
         url: EditUrl+'/' + id+'/edit',
@@ -76,19 +77,22 @@ $(document).on('click', '#showModalEditCoupon', function (e) {
                 $('#error_message').text(response.message);
             } else {
                 $('#id').val(id);
-                $('#code').val(response.data.code);
-                $('#discount').val(response.data.discount);
-                $('#end_at').val(response.data.end_at);
-                $("#status option[value='"+response.data.status+"']").prop("selected", true);
+                $('#title_ar').val(response.data.title_ar);
+                $('#title_en').val(response.data.title_en);
+                $('#sud_title_ar').val(response.data.sud_title_ar);
+                $('#sud_title_en').val(response.data.sud_title_en);
+                $('#description_ar').val(response.data.description_ar);
+                $('#description_en').val(response.data.description_en);
+                $("#layout option[value='"+response.data.layout+"']").prop("selected", true);
             }
         }
     });
 });
 
-let UpdateUrl = new URL('admin/coupon', host.origin);
-$(document).on('click', '#updateCoupon', function (e) {
+let UpdateUrl = new URL('admin/layout', host.origin);
+$(document).on('click', '#updateLayout', function (e) {
     e.preventDefault();
-    let formdata = new FormData($('#formCouponUpdate')[0]);
+    let formdata = new FormData($('#formLayoutUpdate')[0]);
     var id = $('#id').val();
     $.ajaxSetup({
         headers: {
@@ -111,24 +115,24 @@ $(document).on('click', '#updateCoupon', function (e) {
                 $('#error_message').html("");
                 $('#error_message').addClass("alert alert-success");
                 $('#error_message').text(response.message);
-                $('#modalCouponUpdate').modal('hide');
-                $('#formCouponUpdate')[0].reset();
-                coupon.ajax.reload(null, false);
+                $('#modalLayoutUpdate').modal('hide');
+                $('#formLayoutUpdate')[0].reset();
+                layout.ajax.reload(null, false);
             }
         }
     });
 });
 
-let DeleteUrl = new URL('admin/coupon', host.origin);
-$(document).on('click', '#showModalDeleteCoupon', function (e) {
+let DeleteUrl = new URL('admin/layout', host.origin);
+$(document).on('click', '#showModalDeleteLayout', function (e) {
     e.preventDefault();
     $('#nameDetele').val($(this).data('name'));
     var id = $(this).data('id');
-    $('#modalCouponDelete').modal('show');
+    $('#modalLayoutDelete').modal('show');
     gg(id);
 });
 function gg(id) {
-    $(document).off("click", "#deleteCoupon").on("click", "#deleteCoupon", function (e) {
+    $(document).off("click", "#deleteLayout").on("click", "#deleteLayout", function (e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
@@ -151,15 +155,15 @@ function gg(id) {
                     $('#error_message').html("");
                     $('#error_message').addClass("alert alert-success");
                     $('#error_message').text(response.message);
-                    $('#modalCouponDelete').modal('hide');
-                    coupon.ajax.reload(null, false);
+                    $('#modalLayoutDelete').modal('hide');
+                    layout.ajax.reload(null, false);
                 }
             }
         });
     });
 }
 
-let statusUrl = new URL('admin/status/coupon', host.origin);
+let statusUrl = new URL('admin/status/layout', host.origin);
 $(document).on('click', '#status', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
@@ -182,7 +186,7 @@ $(document).on('click', '#status', function (e) {
                     $('#error_message').html("");
                     $('#error_message').addClass("alert alert-success");
                     $('#error_message').text(response.message);
-                    coupon.ajax.reload(null, false);
+                    layout.ajax.reload(null, false);
                 }
         }
     });
@@ -191,5 +195,5 @@ $(document).on('click', '#status', function (e) {
 //  close action
 $(document).on('click', '#close', function (e) {
     e.preventDefault();
-    $('#formCouponAdd')[0].reset();
+    $('#formLayoutAdd')[0].reset();
 });

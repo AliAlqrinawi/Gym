@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Table;
+use App\Models\Layout;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
 
-class TableController extends Controller
+class LayoutController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,68 +17,25 @@ class TableController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Table::where('parent_id', null)->select('*');
+            $data = Layout::get();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('title', function ($row) {
-                    if (App::getLocale() == 'en') {
-                        $row->title_en;
-                    } else {
-                        $row->title_ar;
-                    }
-                    return $row->title_en;
-                })
-                ->addColumn('description', function ($row) {
-                    if (App::getLocale() == 'en') {
-                        $description = Str::limit($row->description_en, 10, ' ...?');
-                    } else {
-                        $description = Str::limit($row->description_ar, 10, ' ...?');
-                    }
-                    return $description;
-                })
-                ->addColumn('status', function ($row) {
-                    if ($row->status == 'active') {
-                        $status = '<button class="modal-effect btn btn-sm btn-success" style="margin: 5px" id="status" data-id="' . $row->id . '" ><i class=" icon-check"></i></button>';
-                    } else {
-                        $status = '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="status" data-id="' . $row->id . '" ><i class=" icon-check"></i></button>';
-                    }
-                    return $status;
+                ->addColumn('image', function ($row) {
+                    $image = '<img src="' . asset('/') . $row->image . '" alt="image" width="50" height="50">';
+                    return $image;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a class="modal-effect btn btn-sm btn-secondary" style="margin: 5px" href="' . url('business.index') . '?table=' . $row->id . '"><i class="las la-clipboard"></i></a>';
-                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditTable" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
-                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteTable" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
+                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditLayout" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
+                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteLayout" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;
                 })
-                // ->filter(function ($q) use ($request) {
-                //     if ($request->status == 'active' || $request->status == 'inactive') {
-                //         $q->where('status', $request->status);
-                //     }
-                    // if (!empty($request->get('search'))) {
-                    //     $instance->where(function ($w) use ($request) {
-                    //         $search = $request->get('search');
-                    //         $w->orWhere('name', 'LIKE', "%$search%")
-                    //             ->orWhere('email', 'LIKE', "%$search%");
-                    //     });
-                    // }
-                // })
                 ->rawColumns([
-                    'status' => 'status',
+                    'image' => 'image',
                     'action' => 'action',
                 ])
                 ->make(true);
         }
-        return view('dashboard.views-dash.table.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('dashboard.views-dash.layout.index');
     }
 
     /**
@@ -90,16 +46,26 @@ class TableController extends Controller
      */
     public function store(Request $request)
     {
-        $tableData = $request->all();
-        $validator = Validator($tableData, [
+        $layoutData = $request->all();
+        $validator = Validator($layoutData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
+            'sud_title_ar' => 'required|string|min:3|max:255',
+            'sud_title_en' => 'required|string|min:3|max:255',
             'description_en' => 'required|string|min:3|max:255',
             'description_ar' => 'required|string|min:3|max:255',
-            'status' => 'required|in:active,inactive',
+            'image' => 'required|image',
+            'layout' => 'required|in:first,second,third',
         ]);
         if (!$validator->fails()) {
-            $table = Table::create($tableData);
+            if($request->hasFile('image')) {
+                $name = Str::random(12);
+                $image = $request->file('image');
+                $imageName = $name . time() . '_' . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('image'), $imageName);
+                $layoutData['image'] = 'image/' . $imageName;
+            }
+            $layout = Layout::create($layoutData);
             $response = [
                 'message' => __('Added successfully'),
                 'status' => 200,
@@ -133,12 +99,12 @@ class TableController extends Controller
      */
     public function edit($id)
     {
-        $table = Table::find($id);
-        if ($table) {
+        $layout = Layout::find($id);
+        if ($layout) {
             $response = [
                 'message' => __('success'),
                 'status' => 200,
-                'data' => $table
+                'data' => $layout
             ];
             return ControllersService::responseSuccess($response);
         } else {
@@ -159,16 +125,26 @@ class TableController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $tableData = $request->all();
-        $validator = Validator($tableData, [
+        $layoutData = $request->all();
+        $validator = Validator($layoutData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
+            'sud_title_ar' => 'required|string|min:3|max:255',
+            'sud_title_en' => 'required|string|min:3|max:255',
             'description_en' => 'required|string|min:3|max:255',
             'description_ar' => 'required|string|min:3|max:255',
-            'status' => 'required|in:active,inactive',
+            'image' => 'nullable|image',
+            'layout' => 'required|in:first,second,third',
         ]);
         if (!$validator->fails()) {
-            $table = Table::find($id)->update($tableData);
+            if($request->hasFile('image')) {
+                $name = Str::random(12);
+                $image = $request->file('image');
+                $imageName = $name . time() . '_' . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('image'), $imageName);
+                $layoutData['image'] = 'image/' . $imageName;
+            }
+            $layout = Layout::find($id)->update($layoutData);
             $response = [
                 'message' => __('Updated successfully'),
                 'status' => 200,
@@ -191,9 +167,9 @@ class TableController extends Controller
      */
     public function destroy($id)
     {
-        $table = Table::find($id);
-        if ($table) {
-            $table->delete();
+        $layout = Layout::find($id);
+        if ($layout) {
+            $layout->delete();
             $response = [
                 'message' => __('Deleted successfully'),
                 'status' => 200,
@@ -210,9 +186,9 @@ class TableController extends Controller
 
     public function status($id)
     {
-        $table = Table::find($id);
-        if ($table) {
-            $table->changeStatus();
+        $layout = Layout::find($id);
+        if ($layout) {
+            $layout->changeStatus();
             $response = [
                 'message' => __('Updated successfully'),
                 'status' => 200,

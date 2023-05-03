@@ -1,17 +1,30 @@
 let host = document.location;
 
 let TableUrl = new URL('/admin/table', host.origin);
+let pathSegments = host.pathname.split('/');
+let currentLang = pathSegments[1];
+if(currentLang != 'ar' || currentLang != 'en'){
+    currentLang = 'en';
+}
+
 var table = $('#get_table').DataTable({
     processing: true,
-    ajax: TableUrl,
+    serverSide: true,
+    ajax: {
+        url:TableUrl,
+        // data: function (d) {
+        //     d.status = $('#statusFilter').val()
+        // }
+    },
     columns: [
-        {data: "DT_RowIndex", name: "DT_RowIndex"},
-        {data: "title", name: "title"},
-        {data: "description", name: "description"},
+        {data: "DT_RowIndex", name: "id"},
+        {data: "title", name: "title_"+currentLang},
+        {data: "description", name: "description_"+currentLang},
         {data: "status", name: "status"},
         {data: "action", name: "action"},
     ]
 });
+
 //  view modal table
 $(document).on('click', '#ShowModalTable', function (e) {
     e.preventDefault();
@@ -187,3 +200,8 @@ $(document).on('click', '#close', function (e) {
     e.preventDefault();
     $('#formTableAdd')[0].reset();
 });
+
+// Filters Table
+// $('#statusFilter').change(function(){
+//     table.ajax.reload(null, false);
+// });

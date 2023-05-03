@@ -1,6 +1,12 @@
 let host = document.location;
 
 let PackageUrl = new URL('/admin/package', host.origin);
+let pathSegments = host.pathname.split('/');
+let currentLang = pathSegments[1];
+if(currentLang != 'ar' || currentLang != 'en'){
+    currentLang = 'en';
+}
+
 var package = $('#get_package').DataTable({
     processing: true,
     ajax: PackageUrl,

@@ -1,6 +1,12 @@
 let host = document.location;
 
 let ExerciseUrl = new URL('/admin/exercise', host.origin);
+let pathSegments = host.pathname.split('/');
+let currentLang = pathSegments[1];
+if(currentLang != 'ar' || currentLang != 'en'){
+    currentLang = 'en';
+}
+
 var exercise = $('#get_exercise').DataTable({
     processing: true,
     ajax: ExerciseUrl,
