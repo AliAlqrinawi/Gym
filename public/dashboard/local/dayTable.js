@@ -17,6 +17,7 @@ var dayTable = $('#get_dayTable').DataTable({
         {data: "DT_RowIndex", name: "id"},
         {data: "image", name: "image"},
         {data: "title_"+currentLang, name: "title_"+currentLang},
+        {data: "description_"+currentLang, name: "description_"+currentLang},
         {data: "status", name: "status"},
         {data: "action", name: "action"},
     ]
@@ -83,6 +84,13 @@ $(document).on('click', '#showModalEditDayTable', function (e) {
                 $('#title_ar').val(response.data.title_ar);
                 $('#description_en').val(response.data.description_en);
                 $('#description_ar').val(response.data.description_ar);
+                // var id_videos = response.data.id_videos;
+                // id_videos.forEach((value) => {
+                //     console.log(value);
+                //     $("#id_video").val(value).prop("selected", true);
+                // });
+
+                $("#parent_id option[value='"+response.data.parent_id+"']").prop("selected", true);
                 $("#status option[value='"+response.data.status+"']").prop("selected", true);
             }
         }

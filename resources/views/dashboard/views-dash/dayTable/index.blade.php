@@ -44,6 +44,30 @@
                             </div>
 
                             <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">{{ __('Image') }} :</label>
+                                <input type="file" class="form-control" name="image" required>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <p class="mg-b-10">{{ __('Videos') }}</p>
+                                <select name="id_videos[]" multiple="multiple" class="testselect2">
+                                    @foreach ($videos as $key => $value)
+                                    <option {{ $key == 0 ? 'selected' : '' }} value="{{ $value->id }}">{{ app()->getLocale() == 'en' ? $value->title_en : $value->title_ar }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">{{ __('Parent') }} :</label>
+                                <select name="parent_id" class="form-control">
+                                    @foreach ($table as $value)
+                                        <option value="{{ $value->id }}">
+                                            {{ app()->getLocale() == 'en' ? $value->title_en : $value->title_ar }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Status') }} :</label>
                                 <select name="status" class="form-control">
                                     <option value="active">{{ __('ACTIVE') }}</option>
@@ -90,14 +114,36 @@
 
                             <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Description in English') }} :</label>
-                                <input type="text" class="form-control" name="description_en" id="description_en"
-                                    required>
+                                <input type="text" class="form-control" name="description_en" id="description_en" required>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Description in Arabic') }} :</label>
-                                <input type="text" class="form-control" name="description_ar" id="description_ar"
-                                    required>
+                                <input type="text" class="form-control" name="description_ar" id="description_ar" required>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">{{ __('Image') }} :</label>
+                                <input type="file" class="form-control" name="image" required>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <p class="mg-b-10">{{ __('Videos') }}</p>
+                                <select name="id_videos[]" id="id_videos" multiple="multiple" class="testselect2">
+                                    @foreach ($videos as $key => $value)
+                                    <option {{ $key == 0 ? 'selected' : '' }} value="{{ $value->id }}">{{ app()->getLocale() == 'en' ? $value->title_en : $value->title_ar }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">{{ __('Parent') }} :</label>
+                                <select name="parent_id" id="parent_id" class="form-control">
+                                    @foreach ($table as $value)
+                                        <option value="{{ $value->id }}">
+                                            {{ app()->getLocale() == 'en' ? $value->title_en : $value->title_ar }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="form-group col-md-6">
@@ -110,7 +156,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-success" id="updateDayTable">{{ __('Update') }}</button>
+                            <button type="submit" class="btn btn-success"
+                                id="updateDayTable">{{ __('Update') }}</button>
                             <button class="btn ripple btn-secondary" data-bs-dismiss="modal"
                                 type="button">{{ __('Close') }}</button>
                         </div>
@@ -175,6 +222,7 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">#</th>
+                                    <th class="border-bottom-0">{{ __('Image') }}</th>
                                     <th class="border-bottom-0">{{ __('Title') }}</th>
                                     <th class="border-bottom-0">{{ __('Description') }}</th>
                                     <th class="border-bottom-0">{{ __('Status') }}</th>
@@ -205,5 +253,8 @@
     <script src="{{ asset('dashboard/plugins/datatable/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('dashboard/plugins/datatable/responsive.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('dashboard/js/table-data.js') }}"></script>
+    <script src="{{ asset('dashboard/plugins/sumoselect/jquery.sumoselect.js') }}"></script>
+    <script src="{{ asset('dashboard/js/advanced-form-elements.js') }}"></script>
+    <script src="{{ asset('dashboard/js/select2.js') }}"></script>
     <script src="{{ asset('dashboard/local/dayTable.js') }}"></script>
 @stop

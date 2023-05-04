@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Table;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Yajra\DataTables\Facades\DataTables;
@@ -17,6 +18,8 @@ class DayTableController extends Controller
      */
     public function index(Request $request)
     {
+        $table = Table::where('parent_id' , null)->get();
+        $videos = Video::get();
         if ($request->ajax()) {
             $data = Table::where('parent_id', '!=' , null)->select('*');
             return DataTables::of($data)
@@ -45,7 +48,7 @@ class DayTableController extends Controller
                 ])
                 ->make(true);
         }
-        return view('dashboard.views-dash.dayTable.index');
+        return view('dashboard.views-dash.dayTable.index' , compact('table' , 'videos'));
     }
 
     /**
@@ -73,7 +76,7 @@ class DayTableController extends Controller
             'description_en' => 'required|string|min:3|max:255',
             'description_ar' => 'required|string|min:3|max:255',
             'image' => 'required|image',
-            'id_videos' =>  'required|exists:videos,id',
+            'id_videos' =>  'required|array|exists:videos,id',
             'parent_id' => 'required|exists:tables,id',
             'status' => 'required|in:active,inactive',
         ]);
