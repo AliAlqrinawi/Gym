@@ -14,7 +14,7 @@
 
 </head>
 
-<body class="main-body app sidebar-mini {{ app()->getLocale() == 'en' ? 'ltr' : 'rtl' }}" style="font-family: IBM Plex Sans">
+<body class="main-body app sidebar-mini {{ app()->getLocale() == 'en' ? 'ltr' : 'rtl' }}" style="font-family: cairo, sans-serif;font-style: normal;font-weight: 200;">
 
     <!-- Loader -->
     <div id="global-loader">

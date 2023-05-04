@@ -5,6 +5,7 @@ use App\Http\Controllers\DayTableController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\VideoController;
@@ -46,6 +47,7 @@ Route::group([
     Route::put('status/package/{id}', [PackageController::class , 'status']);
     Route::resource('layout' , LayoutController::class);
     Route::put('status/layout/{id}', [PackageController::class , 'status']);
+    Route::resource('role' , RoleController::class);
     Route::resource('setting', SettingsController::class)->only(['index' , 'update']);
 });
 

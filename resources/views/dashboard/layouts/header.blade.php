@@ -2,10 +2,14 @@
     <div class="container-fluid main-container ">
         <div class="main-header-left ">
             <div class="responsive-logo">
-                <a href="index.html" class="header-logo">
-                    <img src="{{ asset('dashboard/img/brand/logo.png') }}" class="logo-1" alt="logo">
-                    <img src="{{ asset('dashboard/img/brand/logo-white.png') }}" class="dark-logo-1" alt="logo">
-                </a>
+                <a href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/brand/logo-light.png')}}"
+                        class="logo-1" alt="logo"></a>
+                <a href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/brand/logo-light.png')}}"
+                        class="dark-logo-1" alt="logo"></a>
+                <a href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/brand/logo-light.png')}}"
+                        class="logo-2" alt="logo"></a>
+                <a href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/brand/logo-light.png')}}"
+                        class="dark-logo-2" alt="logo"></a>
             </div>
             <div class="app-sidebar__toggle" data-bs-toggle="sidebar">
                 <a class="open-toggle" href="javascript:void(0);"><i class="header-icon fe fe-align-left" ></i></a>
