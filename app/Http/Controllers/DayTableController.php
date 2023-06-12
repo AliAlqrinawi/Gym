@@ -114,7 +114,8 @@ class DayTableController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Table::where('is_parent' , 'exercise')->find($id);
+        return view('dashboard.views-dash.dayTable.show' , compact('data'));
     }
 
     /**
