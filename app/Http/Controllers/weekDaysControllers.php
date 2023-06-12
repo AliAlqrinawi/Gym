@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Table;
-use App\Models\Video;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Str;
 
-class DayTableController extends Controller
+class weekDaysControllers extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,19 +15,11 @@ class DayTableController extends Controller
      */
     public function index(Request $request)
     {
-        $day = $request->day;
-        $table = Table::where('is_parent' , 'inparent')->get();
-        $videos = Video::get();
+        $table = Table::where('is_parent' , 'parent')->get();
         if ($request->ajax()) {
-            $data = Table::when($request->day , function($q) use ($request){
-                $q->where('parent_id' , $request->day);
-            })->where('is_parent' , 'exercise')->get();
+            $data = Table::where('is_parent' , 'inparent')->select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('image', function ($row) {
-                    $image = '<img src="' . asset('/') . $row->image . '" alt="image" width="50" height="50">';
-                    return $image;
-                })
                 ->addColumn('status', function ($row) {
                     if ($row->status == 'active') {
                         $status = '<button class="modal-effect btn btn-sm btn-success" style="margin: 5px" id="status" data-id="' . $row->id . '" ><i class=" icon-check"></i></button>';
@@ -39,8 +29,8 @@ class DayTableController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditDayTable" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
-                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteDayTable" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
+                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditWeekDay" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
+                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteWeekDay" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;
                 })
                 ->rawColumns([
@@ -50,7 +40,7 @@ class DayTableController extends Controller
                 ])
                 ->make(true);
         }
-        return view('dashboard.views-dash.dayTable.index' , compact('table' , 'videos'));
+        return view('dashboard.views-dash.weekDay.index' , compact('table'));
     }
 
     /**
@@ -75,22 +65,11 @@ class DayTableController extends Controller
         $validator = Validator($dayTableData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
-            'description_en' => 'required|string|min:3|max:255',
-            'description_ar' => 'required|string|min:3|max:255',
-            'image' => 'required|image',
-            'id_videos' =>  'required|array|exists:videos,id',
             'parent_id' => 'required|exists:tables,id',
             'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {
-            if($request->hasFile('image')) {
-                $name = Str::random(12);
-                $image = $request->file('image');
-                $imageName = $name . time() . '_' . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('image'), $imageName);
-                $dayTableData['image'] = 'image/' . $imageName;
-            }
-            $dayTableData['is_parent'] = 'exercise';
+            $dayTableData ['is_parent'] = 'inparent';
             $dayTable = Table::create($dayTableData);
             $response = [
                 'message' => __('Added successfully'),
@@ -155,21 +134,10 @@ class DayTableController extends Controller
         $validator = Validator($dayTableData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
-            'description_en' => 'required|string|min:3|max:255',
-            'description_ar' => 'required|string|min:3|max:255',
-            'image' => 'nullable|image',
-            'id_videos' =>  'required|exists:videos,id',
             'parent_id' => 'required|exists:tables,id',
             'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {
-            if($request->hasFile('image')) {
-                $name = Str::random(12);
-                $image = $request->file('image');
-                $imageName = $name . time() . '_' . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('image'), $imageName);
-                $dayTableData['image'] = 'image/' . $imageName;
-            }
             $dayTable = Table::find($id)->update($dayTableData);
             $response = [
                 'message' => __('Updated successfully'),

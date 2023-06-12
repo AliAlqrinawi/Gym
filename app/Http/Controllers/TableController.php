@@ -18,16 +18,15 @@ class TableController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Table::where('parent_id', null)->select('*');
+            $data = Table::where('is_parent' , 'parent')->select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('title', function ($row) {
+                ->addColumn('title1', function ($row) {
                     if (App::getLocale() == 'en') {
-                        $row->title_en;
+                        return $row->title_en;
                     } else {
-                        $row->title_ar;
+                        return $row->title_ar;
                     }
-                    return $row->title_en;
                 })
                 ->addColumn('description', function ($row) {
                     if (App::getLocale() == 'en') {
@@ -65,6 +64,7 @@ class TableController extends Controller
                 // })
                 ->rawColumns([
                     'status' => 'status',
+                    'title1' => 'title1',
                     'action' => 'action',
                 ])
                 ->make(true);
@@ -94,8 +94,8 @@ class TableController extends Controller
         $validator = Validator($tableData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
-            'description_en' => 'required|string|min:3|max:255',
-            'description_ar' => 'required|string|min:3|max:255',
+            // 'description_en' => 'required|string|min:3|max:255',
+            // 'description_ar' => 'required|string|min:3|max:255',
             'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {
@@ -163,8 +163,8 @@ class TableController extends Controller
         $validator = Validator($tableData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
-            'description_en' => 'required|string|min:3|max:255',
-            'description_ar' => 'required|string|min:3|max:255',
+            // 'description_en' => 'required|string|min:3|max:255',
+            // 'description_ar' => 'required|string|min:3|max:255',
             'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {

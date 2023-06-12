@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\weekDaysControllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -35,6 +36,8 @@ Route::group([
     Route::get('/', function () {return view('dashboard.dashboard');})->name('home');
     Route::resource('table' , TableController::class);
     Route::put('status/table/{id}', [TableController::class , 'status']);
+    Route::resource('weekDay' , weekDaysControllers::class);
+    Route::put('status/weekDay/{id}', [weekDaysControllers::class , 'status']);
     Route::resource('dayTable' , DayTableController::class);
     Route::put('status/dayTable/{id}', [DayTableController::class , 'status']);
     Route::resource('exercise' , ExerciseController::class);
@@ -51,3 +54,6 @@ Route::group([
     Route::resource('setting', SettingsController::class)->only(['index' , 'update']);
 });
 
+Route::get('test' , function(){
+    return App\Models\Table::where('is_parent' , 'parent')->with('weekDay')->get();
+});
