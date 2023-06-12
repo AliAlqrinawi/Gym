@@ -39,9 +39,10 @@ Route::group([
 
     Route::resource('weekDay' , weekDaysControllers::class);
     Route::put('status/weekDay/{id}', [weekDaysControllers::class , 'status']);
-    
+
     Route::resource('dayTable' , DayTableController::class);
     Route::put('status/dayTable/{id}', [DayTableController::class , 'status']);
+    
     Route::resource('exercise' , ExerciseController::class);
     Route::put('status/exercise/{id}', [ExerciseController::class , 'status']);
     Route::resource('video' , VideoController::class);
