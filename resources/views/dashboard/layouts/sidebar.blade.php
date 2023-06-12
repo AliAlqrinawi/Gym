@@ -51,6 +51,152 @@
                         </svg><span class="side-menu__label">{{ __('Roles') }}</span></a>
                 </li>
                 <li class="slide">
+                    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24" ><path d="M0 0h24v24H0V0z" fill="none"/><path d="M5 9h14V5H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5S7.83 8.5 7 8.5 5.5 7.83 5.5 7 6.17 5.5 7 5.5zM5 19h14v-4H5v4zm2-3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" opacity=".3"/><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-1 6H5v-4h14v4zm-12-.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-1 6H5V5h14v4zM7 8.5c.83 0 1.5-.67 1.5-1.5S7.83 5.5 7 5.5 5.5 6.17 5.5 7 6.17 8.5 7 8.5z"/></svg>
+                        <span class="side-menu__label">{{ __('Schedule') }}</span><i class="angle fe fe-chevron-down"></i></a>
+                    <ul class="slide-menu">
+                        <li class="panel sidetab-menu">
+                            <div class="tab-menu-heading p-0 pb-2 border-0">
+                                <div class="tabs-menu ">
+                                    <!-- Tabs -->
+                                    <ul class="nav panel-tabs">
+                                        <li><a href="#side26" class="active" data-bs-toggle="tab"><i class="fe fe-airplay"></i><p>Home</p></a></li>
+                                        <li><a href="#side27" data-bs-toggle="tab"><i class="fe fe-package"></i><p>Events</p></a></li>
+                                        <li><a href="#side28" data-bs-toggle="tab"><i class="fe fe-move"></i><p>Activity</p></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel-body tabs-menu-body p-0 border-0">
+                                <div class="tab-content">
+                                    <div class="tab-pane tab-content-show active" id="side26">
+                                        <ul class="sidemenu-list">
+                                            <li class="side-menu__label1"><a href="javascript:void(0);">{{ __('Schedule') }}</a></li>
+                                            @foreach (App\Models\Table::where('is_parent' , 'parent')->with('weekDay')->get() as $value)
+                                            <li class="sub-slide">
+                                                <a class="slide-item" data-bs-toggle="sub-slide" href="javascript:void(0);">
+                                                    <span class="sub-side-menu__label">{{ App::getLocale() == 'en' ? $value->title_en : $value->title_ar }}</span>
+                                                    <i class="sub-angle fe fe-chevron-down"></i></a>
+                                                <ul class="sub-slide-menu">
+                                                    <li class="sub-slide2">
+                                                        @foreach ($value->weekDay as $week_day)
+                                                        <a class="sub-side-menu__item" data-bs-toggle="sub-slide2"
+                                                        href="{{ url(app()->getLocale().'/admin/dayTable?day='.$week_day->id) }}"><span class="sub-side-menu__label">{{ App::getLocale() == 'en' ? $week_day->title_en : $week_day->title_ar }}</span>
+                                                            <i class="sub-angle2 fe fe-chevron-down"></i></a>
+                                                            {{-- @foreach ($week_day->dayTable as $day_table)
+                                                            <ul class="sub-slide-menu1">
+                                                                <li><a class="sub-slide-item2" href="javascript:void(0);">{{ App::getLocale() == 'en' ? $day_table->title_en : $day_table->title_ar }}</a></li>
+                                                            </ul>
+                                                            @endforeach --}}
+                                                        @endforeach
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    {{-- <div class="tab-pane tab-content-double" id="side27">
+                                        <h5 class="mt-3 mb-4 tx-16">Events</h5>
+                                        <div class="latest-timeline">
+                                            <div class="timeline">
+                                                <div class="mt-0 event-text">
+                                                    <h6 class="mb-0"><a target="_blank" href="#" class="timeline-head">Employees Meeting</a></h6>
+                                                    <small class="text-muted mb-2">20 Feb, 2019</small>
+                                                    <p class="tx-13">sed do eiusmod tempor incididunt ut labore et. </p>
+                                                </div>
+                                                <div class="event-text">
+                                                    <h6 class="mb-0"><a href="#" class="timeline-head">Anniversary Celebration</a></h6>
+                                                    <small class="mb-2 text-muted">14 Feb, 2019</small>
+                                                    <p class="tx-13">sed do eiusmod tempor  magna aliqua nisi ut. </p>
+                                                </div>
+                                                <div class="event-text">
+                                                    <h6 class="mb-0"><a href="#" class="timeline-head">Best Employee Announcement</a></h6>
+                                                    <small class="mb-2 text-muted">13 Feb, 2019</small>
+                                                    <p class="tx-13">sed do eiusmod tempor incididunt ut aliquip.</p>
+                                                </div>
+                                                <div class="event-text">
+                                                    <h6 class="mb-0"><a href="#" class="timeline-head">Weekend trip</a></h6>
+                                                    <small class="mb-2 text-muted">11 Feb, 2019</small>
+                                                    <p class="tx-13">sed do eiusmod tempor incididunt ut aliquip.</p>
+                                                </div>
+                                                <div class="event-text">
+                                                    <h6 class="mb-0"><a href="#" class="timeline-head">New Project Started..</a></h6>
+                                                    <small class="mb-2 text-muted">09 Feb, 2019</small>
+                                                    <p class="tx-13">sed do eiusmod tempor incididunt ut aliquip.</p>
+                                                </div>
+                                                <div class="mb-0 event-text">
+                                                    <h6 class="mb-0"><a href="#" class="timeline-head">Gradening working</a></h6>
+                                                    <small class="mb-2 text-muted">02 Feb, 2019</small>
+                                                    <p class="tx-13">sed do eiusmod tempor  aliqua nisi ut aliquip. </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane tab-content-double" id="side28">
+                                        <h5 class="mt-3 mb-4 tx-16">Activity</h5>
+                                        <div class="activity mt-3 p-0">
+                                            <img src="../assets/img/users/8.jpg" alt="" class="img-activity">
+                                            <div class="time-activity">
+                                                <div class="item-activity">
+                                                    <p class="mb-0 tx-13"><b>Samantha Melon</b> Add a new projects <b> AngularJS Template</b></p>
+                                                    <small class="text-muted ">30 mins ago</small>
+                                                </div>
+                                            </div>
+                                            <img src="../assets/img/users/5.jpg" alt="" class="img-activity">
+                                            <div class="time-activity">
+                                                <div class="item-activity">
+                                                    <p class="mb-0 tx-13"><b>Allie Grater</b> Add a new projects <b>Free HTML Template</b></p>
+                                                    <small class="text-muted ">1 days ago</small>
+                                                </div>
+                                            </div>
+                                            <img src="../assets/img/users/6.jpg" alt="" class="img-activity">
+                                            <div class="time-activity">
+                                                <div class="item-activity">
+                                                    <p class="mb-0 tx-13"><b>Gabe Lackmen</b> Add a new projects <b>Free PSD Template</b></p>
+                                                    <small class="text-muted ">3 days ago</small>
+                                                </div>
+                                            </div>
+                                            <img src="../assets/img/users/7.jpg" alt="" class="img-activity">
+                                            <div class="time-activity">
+                                                <div class="item-activity">
+                                                    <p class="mb-0 tx-13"><b>Abigail John</b> Add a new projects <b>Free UI Template</b></p>
+                                                    <small class="text-muted ">5 days ago</small>
+                                                </div>
+                                            </div>
+                                            <img src="../assets/img/users/14.jpg" alt="" class="img-activity">
+                                            <div class="time-activity">
+                                                <div class="item-activity">
+                                                    <p class="mb-0 tx-13"><b>Jiggel mossin</b> Add a new projects <b> AngularJS Template</b></p>
+                                                    <small class="text-muted ">30 mins ago</small>
+                                                </div>
+                                            </div>
+                                            <img src="../assets/img/users/3.jpg" alt="" class="img-activity">
+                                            <div class="time-activity">
+                                                <div class="item-activity">
+                                                    <p class="mb-0 tx-13"><b>Raven Chanan</b> Add a new projects <b>Free HTML Template</b></p>
+                                                    <small class="text-muted ">1 days ago</small>
+                                                </div>
+                                            </div>
+                                            <img src="../assets/img/users/1.jpg" alt="" class="img-activity">
+                                            <div class="time-activity">
+                                                <div class="item-activity">
+                                                    <p class="mb-0 tx-13"><b>Anna Ogden</b> Add a new projects <b>Free PSD Template</b></p>
+                                                    <small class="text-muted ">3 days ago</small>
+                                                </div>
+                                            </div>
+                                            <img src="../assets/img/users/11.jpg" alt="" class="img-activity">
+                                            <div class="time-activity">
+                                                <div class="item-activity">
+                                                    <p class="mb-0 tx-13"><b>Allie Grater</b> Add a new projects <b>Free UI Template</b></p>
+                                                    <small class="text-muted ">5 days ago</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="slide">
                     <a class="side-menu__item" href="{{ route('table.index') }}"><svg xmlns="http://www.w3.org/2000/svg"
                             class="side-menu__icon" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0V0z" fill="none" />

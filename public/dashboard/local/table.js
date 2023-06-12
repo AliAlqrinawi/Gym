@@ -18,8 +18,8 @@ var table = $('#get_table').DataTable({
     },
     columns: [
         {data: "DT_RowIndex", name: "id"},
-        {data: "title", name: "title_"+currentLang},
-        {data: "description", name: "description_"+currentLang},
+        {data: "title1", name: "title1"},
+        // {data: "description", name: "description_"+currentLang},
         {data: "status", name: "status"},
         {data: "action", name: "action"},
     ]
@@ -84,8 +84,8 @@ $(document).on('click', '#showModalEditTable', function (e) {
                 $('#id').val(id);
                 $('#title_en').val(response.data.title_en);
                 $('#title_ar').val(response.data.title_ar);
-                $('#description_en').val(response.data.description_en);
-                $('#description_ar').val(response.data.description_ar);
+                // $('#description_en').val(response.data.description_en);
+                // $('#description_ar').val(response.data.description_ar);
                 $("#status option[value='"+response.data.status+"']").prop("selected", true);
             }
         }

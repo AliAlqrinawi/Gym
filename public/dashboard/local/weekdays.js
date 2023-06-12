@@ -1,45 +1,37 @@
 let host = document.location;
 
-let dayTableUrl = new URL('/admin/dayTable', host.origin);
+let weekDayUrl = new URL('/admin/weekDay', host.origin);
 let pathSegments = host.pathname.split('/');
 let currentLang = pathSegments[1];
 if(currentLang != 'ar' || currentLang != 'en'){
     currentLang = 'en';
 }
-// Create urlParams query string
-var urlParams = new URLSearchParams(window.location.search);
-// Get value of single parameter
-var day = urlParams.get('day');
-// Output value to console
-console.log(day);
 
-var dayTable = $('#get_dayTable').DataTable({
+var weekDay = $('#get_weekDay').DataTable({
     processing: true,
     serverSide: true,
     ajax: {
-        url:dayTableUrl + '?day=' +day
+        url:weekDayUrl
     },
     columns: [
         {data: "DT_RowIndex", name: "id"},
-        {data: "image", name: "image"},
         {data: "title_"+currentLang, name: "title_"+currentLang},
-        {data: "description_"+currentLang, name: "description_"+currentLang},
         {data: "status", name: "status"},
         {data: "action", name: "action"},
     ]
 });
 
-//  view modal dayTable
-$(document).on('click', '#ShowModalDayTable', function (e) {
+//  view modal weekDay
+$(document).on('click', '#ShowModalWeekDay', function (e) {
     e.preventDefault();
-    $('#modalDayTableAdd').modal('show');
+    $('#modalWeekDayAdd').modal('show');
 });
 
-let AddUrl = new URL('admin/dayTable', host.origin);
+let AddUrl = new URL('admin/weekDay', host.origin);
 // category admin
-$(document).on('click', '#addDayTable', function (e) {
+$(document).on('click', '#addWeekDay', function (e) {
     e.preventDefault();
-    let formdata = new FormData($('#formDayTableAdd')[0]);
+    let formdata = new FormData($('#formWeekDayAdd')[0]);
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -61,20 +53,20 @@ $(document).on('click', '#addDayTable', function (e) {
                 $('#error_message').html("");
                 $('#error_message').addClass("alert alert-success");
                 $('#error_message').text(response.message);
-                $('#modalDayTableAdd').modal('hide');
-                $('#formDayTableAdd')[0].reset();
-                dayTable.ajax.reload(null, false);
+                $('#modalWeekDayAdd').modal('hide');
+                $('#formWeekDayAdd')[0].reset();
+                weekDay.ajax.reload(null, false);
             }
         }
     });
 });
 
-let EditUrl = new URL('admin/dayTable', host.origin);
+let EditUrl = new URL('admin/weekDay', host.origin);
 // view modification data
-$(document).on('click', '#showModalEditDayTable', function (e) {
+$(document).on('click', '#showModalEditWeekDay', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
-    $('#modalDayTableUpdate').modal('show');
+    $('#modalWeekDayUpdate').modal('show');
     $.ajax({
         type: 'GET',
         url: EditUrl+'/' + id+'/edit',
@@ -88,14 +80,6 @@ $(document).on('click', '#showModalEditDayTable', function (e) {
                 $('#id').val(id);
                 $('#title_en').val(response.data.title_en);
                 $('#title_ar').val(response.data.title_ar);
-                $('#descriptionz_en').val(response.data.description_en);
-                $('#description_ar').val(response.data.description_ar);
-                // var id_videos = response.data.id_videos;
-                // id_videos.forEach((value) => {
-                //     console.log(value);
-                //     $("#id_video").val(value).prop("selected", true);
-                // });
-
                 $("#parent_id option[value='"+response.data.parent_id+"']").prop("selected", true);
                 $("#status option[value='"+response.data.status+"']").prop("selected", true);
             }
@@ -103,10 +87,10 @@ $(document).on('click', '#showModalEditDayTable', function (e) {
     });
 });
 
-let UpdateUrl = new URL('admin/dayTable', host.origin);
-$(document).on('click', '#updateDayTable', function (e) {
+let UpdateUrl = new URL('admin/weekDay', host.origin);
+$(document).on('click', '#updateWeekDay', function (e) {
     e.preventDefault();
-    let formdata = new FormData($('#formDayTableUpdate')[0]);
+    let formdata = new FormData($('#formWeekDayUpdate')[0]);
     var id = $('#id').val();
     $.ajaxSetup({
         headers: {
@@ -129,24 +113,24 @@ $(document).on('click', '#updateDayTable', function (e) {
                 $('#error_message').html("");
                 $('#error_message').addClass("alert alert-success");
                 $('#error_message').text(response.message);
-                $('#modalDayTableUpdate').modal('hide');
-                $('#formDayTableUpdate')[0].reset();
-                dayTable.ajax.reload(null, false);
+                $('#modalWeekDayUpdate').modal('hide');
+                $('#formWeekDayUpdate')[0].reset();
+                weekDay.ajax.reload(null, false);
             }
         }
     });
 });
 
-let DeleteUrl = new URL('admin/dayTable', host.origin);
-$(document).on('click', '#showModalDeleteDayTable', function (e) {
+let DeleteUrl = new URL('admin/weekDay', host.origin);
+$(document).on('click', '#showModalDeleteWeekDay', function (e) {
     e.preventDefault();
     $('#nameDetele').val($(this).data('name'));
     var id = $(this).data('id');
-    $('#modalDayTableDelete').modal('show');
+    $('#modalWeekDayDelete').modal('show');
     gg(id);
 });
 function gg(id) {
-    $(document).off("click", "#deleteDayTable").on("click", "#deleteDayTable", function (e) {
+    $(document).off("click", "#deleteWeekDay").on("click", "#deleteWeekDay", function (e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
@@ -169,15 +153,15 @@ function gg(id) {
                     $('#error_message').html("");
                     $('#error_message').addClass("alert alert-success");
                     $('#error_message').text(response.message);
-                    $('#modalDayTableDelete').modal('hide');
-                    dayTable.ajax.reload(null, false);
+                    $('#modalWeekDayDelete').modal('hide');
+                    weekDay.ajax.reload(null, false);
                 }
             }
         });
     });
 }
 
-let statusUrl = new URL('admin/status/dayTable', host.origin);
+let statusUrl = new URL('admin/status/weekDay', host.origin);
 $(document).on('click', '#status', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
@@ -200,7 +184,7 @@ $(document).on('click', '#status', function (e) {
                     $('#error_message').html("");
                     $('#error_message').addClass("alert alert-success");
                     $('#error_message').text(response.message);
-                    dayTable.ajax.reload(null, false);
+                    weekDay.ajax.reload(null, false);
                 }
         }
     });
@@ -209,7 +193,7 @@ $(document).on('click', '#status', function (e) {
 //  close action
 $(document).on('click', '#close', function (e) {
     e.preventDefault();
-    $('#formDayTableAdd')[0].reset();
+    $('#formWeekDayAdd')[0].reset();
 });
 
 // Filters Table

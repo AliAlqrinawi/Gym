@@ -22,6 +22,7 @@ return new class extends Migration
 			$table->string('description_en')->nullable();
 			$table->string('image')->nullable();
             $table->text('id_videos')->nullable();
+            $table->enum('is_parent' , ['parent' , 'inparent' , 'exercise'])->default('active');
             $table->enum('status' , ['active' , 'inactive'])->default('active');
             $table->timestamps();
         });

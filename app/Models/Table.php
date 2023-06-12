@@ -9,11 +9,21 @@ class Table extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['parent_id' , 'title_ar' , 'title_en' , 'description_ar' , 'description_en' , 'image' , 'id_videos' , 'status'];
+    protected $fillable = ['parent_id' , 'is_parent' , 'title_ar' , 'title_en' , 'description_ar' , 'description_en' , 'image' , 'id_videos' , 'status'];
 
     protected $casts = [
         'id_videos' => 'array'
     ];
+
+    public function weekDay()
+    {
+        return $this->hasMany(Table::class , 'parent_id' , 'id')->where('is_parent' , 'inparent')->with('dayTable');
+    }
+
+    public function dayTable()
+    {
+        return $this->hasMany(Table::class , 'parent_id' , 'id')->where('is_parent' , 'exercise');
+    }
 
     public function scopeChangeStatus()
     {
