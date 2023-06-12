@@ -42,8 +42,12 @@ Route::group([
     
     Route::resource('dayTable' , DayTableController::class);
     Route::put('status/dayTable/{id}', [DayTableController::class , 'status']);
+
+
     Route::resource('exercise' , ExerciseController::class);
     Route::put('status/exercise/{id}', [ExerciseController::class , 'status']);
+
+    
     Route::resource('video' , VideoController::class);
     Route::put('status/video/{id}', [VideoController::class , 'status']);
     Route::resource('coupon' , CouponController::class);
