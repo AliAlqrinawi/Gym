@@ -36,8 +36,10 @@ Route::group([
     Route::get('/', function () {return view('dashboard.dashboard');})->name('home');
     Route::resource('table' , TableController::class);
     Route::put('status/table/{id}', [TableController::class , 'status']);
+
     Route::resource('weekDay' , weekDaysControllers::class);
     Route::put('status/weekDay/{id}', [weekDaysControllers::class , 'status']);
+    
     Route::resource('dayTable' , DayTableController::class);
     Route::put('status/dayTable/{id}', [DayTableController::class , 'status']);
     Route::resource('exercise' , ExerciseController::class);
