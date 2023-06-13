@@ -68,7 +68,7 @@ class ExerciseController extends Controller
         $validator = Validator($exerciseData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
-            'image' => 'required|image',
+            'image' => 'nullable|image',
             'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {

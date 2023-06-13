@@ -70,9 +70,9 @@ class VideoController extends Controller
         $validator = Validator($videoData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
-            'duration_exercise' => 'required|string|max:255',
             'fitness_level' => 'required|string|max:255',
             'type' => 'required|in:home,gym',
+            'sex' => 'required|in:male,female',
             'image' => 'required|image',
             'video' => 'required|mimes:mp4',
             'alternative_video' => 'required|mimes:mp4',
@@ -165,9 +165,9 @@ class VideoController extends Controller
         $validator = Validator($videoData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
-            'duration_exercise' => 'required|string|max:255',
             'fitness_level' => 'required|string|max:255',
             'type' => 'required|in:home,gym',
+            'sex' => 'required|in:male,female',
             'image' => 'nullable|image',
             'video' => 'nullable|mimes:mp4',
             'alternative_video' => 'nullable|mimes:mp4',

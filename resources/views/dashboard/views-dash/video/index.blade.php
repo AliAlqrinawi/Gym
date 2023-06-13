@@ -33,11 +33,6 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Duration Exercise') }} :</label>
-                                <input type="number" class="form-control" name="duration_exercise" required>
-                            </div>
-
-                            <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Fitness Level') }} :</label>
                                 <input type="number" class="form-control" name="fitness_level" required>
                             </div>
@@ -63,6 +58,14 @@
                                     @foreach ($exercise as $value)
                                     <option value="{{ $value->id }}">{{ app()->getLocale() == 'en' ? $value->title_en : $value->title_ar }}</option>
                                     @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">{{ __('Sex') }} :</label>
+                                <select name="sex" class="form-control">
+                                    <option value="male">{{ __('Male') }}</option>
+                                    <option value="female">{{ __('Female') }}</option>
                                 </select>
                             </div>
 
@@ -118,11 +121,6 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Duration Exercise') }} :</label>
-                                <input type="number" class="form-control" name="duration_exercise" id="duration_exercise" required>
-                            </div>
-
-                            <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Fitness Level') }} :</label>
                                 <input type="number" class="form-control" name="fitness_level" id="fitness_level" required>
                             </div>
@@ -140,6 +138,15 @@
                             <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Alternative Video') }} :</label>
                                 <input type="file" class="form-control" name="alternative_video" id="alternative_video" required>
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">{{ __('Sex') }} :</label>
+                                <select name="sex" id="sex" class="form-control">
+                                    <option value="male">{{ __('Male') }}</option>
+                                    <option value="female">{{ __('Female') }}</option>
+                                </select>
                             </div>
 
                             <div class="form-group col-md-6">

@@ -12,7 +12,7 @@ var exercise = $('#get_exercise').DataTable({
     ajax: ExerciseUrl,
     columns: [
         {data: "DT_RowIndex", name: "DT_RowIndex"},
-        {data: "image", name: "image"},
+        // {data: "image", name: "image"},
         {data: "title", name: "title"},
         {data: "status", name: "status"},
         {data: "action", name: "action"},

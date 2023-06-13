@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title_ar');
 			$table->string('title_en');
-			$table->string('image');
+			$table->string('image')->nullable();
             $table->enum('status' , ['active' , 'inactive'])->default('active');
             $table->timestamps();
         });

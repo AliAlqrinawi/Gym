@@ -33,10 +33,10 @@
                                 <input type="text" class="form-control" name="title_ar" required>
                             </div>
 
-                            <div class="form-group col-md-6">
+                            {{-- <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Image') }} :</label>
                                 <input type="file" class="form-control" name="image" required>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Status') }} :</label>
@@ -82,10 +82,10 @@
                                 <input type="text" class="form-control" name="title_ar"  id="title_ar" required>
                             </div>
 
-                            <div class="form-group col-md-6">
+                            {{-- <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Image') }} :</label>
                                 <input type="file" class="form-control" name="image">
-                            </div>
+                            </div> --}}
 
                             <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Status') }} :</label>
@@ -146,7 +146,7 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">#</th>
-                                    <th class="border-bottom-0">{{ __('Image') }}</th>
+                                    {{-- <th class="border-bottom-0">{{ __('Image') }}</th> --}}
                                     <th class="border-bottom-0">{{ __('Title') }}</th>
                                     <th class="border-bottom-0">{{ __('Status') }}</th>
                                     <th class="border-bottom-0">{{ __('Processes') }}</th>
