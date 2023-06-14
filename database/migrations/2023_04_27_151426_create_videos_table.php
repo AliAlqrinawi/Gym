@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('exercise_id')->constrained('exercises', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('muscle_id')->constrained('muscles', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('title_ar');
 			$table->string('title_en');
 			$table->text('fitness_level');

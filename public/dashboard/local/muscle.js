@@ -1,15 +1,15 @@
 let host = document.location;
 
-let ExerciseUrl = new URL('/admin/exercise', host.origin);
+let MuscleUrl = new URL('/admin/muscle', host.origin);
 let pathSegments = host.pathname.split('/');
 let currentLang = pathSegments[1];
 if(currentLang != 'ar' || currentLang != 'en'){
     currentLang = 'en';
 }
 
-var exercise = $('#get_exercise').DataTable({
+var muscle = $('#get_muscle').DataTable({
     processing: true,
-    ajax: ExerciseUrl,
+    ajax: MuscleUrl,
     columns: [
         {data: "DT_RowIndex", name: "DT_RowIndex"},
         // {data: "image", name: "image"},
@@ -18,17 +18,17 @@ var exercise = $('#get_exercise').DataTable({
         {data: "action", name: "action"},
     ]
 });
-//  view modal exercise
-$(document).on('click', '#ShowModalExercise', function (e) {
+//  view modal muscle
+$(document).on('click', '#ShowModalMuscle', function (e) {
     e.preventDefault();
-    $('#modalExerciseAdd').modal('show');
+    $('#modalMuscleAdd').modal('show');
 });
 
-let AddUrl = new URL('admin/exercise', host.origin);
+let AddUrl = new URL('admin/muscle', host.origin);
 // category admin
-$(document).on('click', '#addExercise', function (e) {
+$(document).on('click', '#addMuscle', function (e) {
     e.preventDefault();
-    let formdata = new FormData($('#formExerciseAdd')[0]);
+    let formdata = new FormData($('#formMuscleAdd')[0]);
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -50,20 +50,20 @@ $(document).on('click', '#addExercise', function (e) {
                 $('#error_message').html("");
                 $('#error_message').addClass("alert alert-success");
                 $('#error_message').text(response.message);
-                $('#modalExerciseAdd').modal('hide');
-                $('#formExerciseAdd')[0].reset();
-                exercise.ajax.reload(null, false);
+                $('#modalMuscleAdd').modal('hide');
+                $('#formMuscleAdd')[0].reset();
+                muscle.ajax.reload(null, false);
             }
         }
     });
 });
 
-let EditUrl = new URL('admin/exercise', host.origin);
+let EditUrl = new URL('admin/muscle', host.origin);
 // view modification data
-$(document).on('click', '#showModalEditExercise', function (e) {
+$(document).on('click', '#showModalEditMuscle', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
-    $('#modalExerciseUpdate').modal('show');
+    $('#modalMuscleUpdate').modal('show');
     $.ajax({
         type: 'GET',
         url: EditUrl+'/' + id+'/edit',
@@ -83,10 +83,10 @@ $(document).on('click', '#showModalEditExercise', function (e) {
     });
 });
 
-let UpdateUrl = new URL('admin/exercise', host.origin);
-$(document).on('click', '#updateExercise', function (e) {
+let UpdateUrl = new URL('admin/muscle', host.origin);
+$(document).on('click', '#updateMuscle', function (e) {
     e.preventDefault();
-    let formdata = new FormData($('#formExerciseUpdate')[0]);
+    let formdata = new FormData($('#formMuscleUpdate')[0]);
     var id = $('#id').val();
     $.ajaxSetup({
         headers: {
@@ -109,24 +109,24 @@ $(document).on('click', '#updateExercise', function (e) {
                 $('#error_message').html("");
                 $('#error_message').addClass("alert alert-success");
                 $('#error_message').text(response.message);
-                $('#modalExerciseUpdate').modal('hide');
-                $('#formExerciseUpdate')[0].reset();
-                exercise.ajax.reload(null, false);
+                $('#modalMuscleUpdate').modal('hide');
+                $('#formMuscleUpdate')[0].reset();
+                muscle.ajax.reload(null, false);
             }
         }
     });
 });
 
-let DeleteUrl = new URL('admin/exercise', host.origin);
-$(document).on('click', '#showModalDeleteExercise', function (e) {
+let DeleteUrl = new URL('admin/muscle', host.origin);
+$(document).on('click', '#showModalDeleteMuscle', function (e) {
     e.preventDefault();
     $('#nameDetele').val($(this).data('name'));
     var id = $(this).data('id');
-    $('#modalExerciseDelete').modal('show');
+    $('#modalMuscleDelete').modal('show');
     gg(id);
 });
 function gg(id) {
-    $(document).off("click", "#deleteExercise").on("click", "#deleteExercise", function (e) {
+    $(document).off("click", "#deleteMuscle").on("click", "#deleteMuscle", function (e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
@@ -149,15 +149,15 @@ function gg(id) {
                     $('#error_message').html("");
                     $('#error_message').addClass("alert alert-success");
                     $('#error_message').text(response.message);
-                    $('#modalExerciseDelete').modal('hide');
-                    exercise.ajax.reload(null, false);
+                    $('#modalMuscleDelete').modal('hide');
+                    muscle.ajax.reload(null, false);
                 }
             }
         });
     });
 }
 
-let statusUrl = new URL('admin/status/exercise', host.origin);
+let statusUrl = new URL('admin/status/muscle', host.origin);
 $(document).on('click', '#status', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
@@ -180,7 +180,7 @@ $(document).on('click', '#status', function (e) {
                     $('#error_message').html("");
                     $('#error_message').addClass("alert alert-success");
                     $('#error_message').text(response.message);
-                    exercise.ajax.reload(null, false);
+                    muscle.ajax.reload(null, false);
                 }
         }
     });

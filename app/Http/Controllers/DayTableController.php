@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Muscle;
 use App\Models\Table;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -21,9 +22,9 @@ class DayTableController extends Controller
         $table = Table::where('is_parent' , 'inparent')->get();
         $videos = Video::get();
         if ($request->ajax()) {
-            $data = Table::when($request->day , function($q) use ($request){
+            $data = Table::when($request->day != "null" , function($q) use ($request){
                 $q->where('parent_id' , $request->day);
-            })->where('is_parent' , 'exercise')->get();
+            })->where('is_parent' , 'muscle')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
@@ -58,9 +59,18 @@ class DayTableController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $table = Table::where('is_parent' , 'inparent')->get();
+        $videos = [];
+        $muscles = Muscle::get();
+        if($request->ajax()){
+            $videos = Video::when($request->muscle_id, function($q) use ($request){
+                $q->where('muscle_id' , $request->muscle_id);
+            })->get();
+            return view('dashboard.views-dash.dayTable.videosInput' , compact('table' , 'videos' , 'muscles'));
+        }
+        return view('dashboard.views-dash.dayTable.create' , compact('table' , 'videos' , 'muscles'));
     }
 
     /**
@@ -90,7 +100,7 @@ class DayTableController extends Controller
                 $image->move(public_path('image'), $imageName);
                 $dayTableData['image'] = 'image/' . $imageName;
             }
-            $dayTableData['is_parent'] = 'exercise';
+            $dayTableData['is_parent'] = 'muscle';
             $dayTable = Table::create($dayTableData);
             $response = [
                 'message' => __('Added successfully'),

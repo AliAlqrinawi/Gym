@@ -78,7 +78,7 @@ $(document).on('click', '#showModalEditVideo', function (e) {
                 $('#title_en').val(response.data.title_en);
                 $('#title_ar').val(response.data.title_ar);
                 $('#fitness_level').val(response.data.fitness_level);
-                $("#exercise_id option[value='"+response.data.exercise_id+"']").prop("selected", true);
+                $("#muscle_id option[value='"+response.data.muscle_id+"']").prop("selected", true);
                 $("#sex option[value='"+response.data.sex+"']").prop("selected", true);
                 $("#type option[value='"+response.data.type+"']").prop("selected", true);
                 $("#status option[value='"+response.data.status+"']").prop("selected", true);

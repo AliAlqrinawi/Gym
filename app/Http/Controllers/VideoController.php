@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Exercise;
+use App\Models\Muscle;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -18,7 +18,7 @@ class VideoController extends Controller
      */
     public function index(Request $request)
     {
-        $exercise = Exercise::get();
+        $muscle = Muscle::get();
         if ($request->ajax()) {
             $data = Video::get();
             return DataTables::of($data)
@@ -55,7 +55,7 @@ class VideoController extends Controller
                 ])
                 ->make(true);
         }
-        return view('dashboard.views-dash.video.index' , compact('exercise'));
+        return view('dashboard.views-dash.video.index' , compact('muscle'));
     }
 
     /**
@@ -70,13 +70,13 @@ class VideoController extends Controller
         $validator = Validator($videoData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
-            'fitness_level' => 'required|string|max:255',
+            'fitness_level' => 'required|array',
             'type' => 'required|in:home,gym',
             'sex' => 'required|in:male,female',
             'image' => 'required|image',
             'video' => 'required|mimes:mp4',
             'alternative_video' => 'required|mimes:mp4',
-            'exercise_id' => 'required|exists:exercises,id',
+            'muscle_id' => 'required|exists:exercises,id',
             'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {
@@ -165,13 +165,13 @@ class VideoController extends Controller
         $validator = Validator($videoData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
-            'fitness_level' => 'required|string|max:255',
+            'fitness_level' => 'required|array',
             'type' => 'required|in:home,gym',
             'sex' => 'required|in:male,female',
             'image' => 'nullable|image',
             'video' => 'nullable|mimes:mp4',
             'alternative_video' => 'nullable|mimes:mp4',
-            'exercise_id' => 'required|exists:exercises,id',
+            'muscle_id' => 'required|exists:exercises,id',
             'status' => 'required|in:active,inactive',
         ]);
         if (!$validator->fails()) {

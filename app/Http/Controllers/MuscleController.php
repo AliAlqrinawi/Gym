@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Exercise;
+use App\Models\Muscle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
 
-class ExerciseController extends Controller
+class MuscleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class ExerciseController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Exercise::get();
+            $data = Muscle::get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('title', function ($row) {
@@ -42,8 +42,8 @@ class ExerciseController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditExercise" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
-                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteExercise" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
+                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditMuscle" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
+                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteMuscle" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;
                 })
                 ->rawColumns([
@@ -53,7 +53,7 @@ class ExerciseController extends Controller
                 ])
                 ->make(true);
         }
-        return view('dashboard.views-dash.exercise.index');
+        return view('dashboard.views-dash.muscle.index');
     }
 
     /**
@@ -64,8 +64,8 @@ class ExerciseController extends Controller
      */
     public function store(Request $request)
     {
-        $exerciseData = $request->all();
-        $validator = Validator($exerciseData, [
+        $muscleData = $request->all();
+        $validator = Validator($muscleData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
             'image' => 'nullable|image',
@@ -77,9 +77,9 @@ class ExerciseController extends Controller
                 $image = $request->file('image');
                 $imageName = $name . time() . '_' . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('image'), $imageName);
-                $exerciseData['image'] = 'image/' . $imageName;
+                $muscleData['image'] = 'image/' . $imageName;
             }
-            $exercise = Exercise::create($exerciseData);
+            $muscle = Muscle::create($muscleData);
             $response = [
                 'message' => __('Added successfully'),
                 'status' => 200,
@@ -113,12 +113,12 @@ class ExerciseController extends Controller
      */
     public function edit($id)
     {
-        $exercise = Exercise::find($id);
-        if ($exercise) {
+        $muscle = Muscle::find($id);
+        if ($muscle) {
             $response = [
                 'message' => __('success'),
                 'status' => 200,
-                'data' => $exercise
+                'data' => $muscle
             ];
             return ControllersService::responseSuccess($response);
         } else {
@@ -139,8 +139,8 @@ class ExerciseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $exerciseData = $request->all();
-        $validator = Validator($exerciseData, [
+        $muscleData = $request->all();
+        $validator = Validator($muscleData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
             'image' => 'nullable|image',
@@ -152,9 +152,9 @@ class ExerciseController extends Controller
                 $image = $request->file('image');
                 $imageName = $name . time() . '_' . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('image'), $imageName);
-                $exerciseData['image'] = 'image/' . $imageName;
+                $muscleData['image'] = 'image/' . $imageName;
             }
-            $exercise = Exercise::find($id)->update($exerciseData);
+            $muscle = Muscle::find($id)->update($muscleData);
             $response = [
                 'message' => __('Updated successfully'),
                 'status' => 200,
@@ -177,9 +177,9 @@ class ExerciseController extends Controller
      */
     public function destroy($id)
     {
-        $exercise = Exercise::find($id);
-        if ($exercise) {
-            $exercise->delete();
+        $muscle = Muscle::find($id);
+        if ($muscle) {
+            $muscle->delete();
             $response = [
                 'message' => __('Deleted successfully'),
                 'status' => 200,
@@ -196,9 +196,9 @@ class ExerciseController extends Controller
 
     public function status($id)
     {
-        $exercise = Exercise::find($id);
-        if ($exercise) {
-            $exercise->changeStatus();
+        $muscle = Muscle::find($id);
+        if ($muscle) {
+            $muscle->changeStatus();
             $response = [
                 'message' => __('Updated successfully'),
                 'status' => 200,

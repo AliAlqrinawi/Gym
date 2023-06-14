@@ -45,8 +45,8 @@ class TableController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a class="modal-effect btn btn-sm btn-secondary" style="margin: 5px" href="' . url('business.index') . '?table=' . $row->id . '"><i class="las la-clipboard"></i></a>';
-                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditTable" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
+                    // $btn = '<a class="modal-effect btn btn-sm btn-secondary" style="margin: 5px" href="' . url('business.index') . '?table=' . $row->id . '"><i class="las la-clipboard"></i></a>';
+                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditTable" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
                     $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteTable" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;
                 })

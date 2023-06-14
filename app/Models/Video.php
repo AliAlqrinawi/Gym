@@ -11,7 +11,11 @@ class Video extends Model
 
     protected $fillable = ['title_ar' , 'title_en' , 'sex' ,
     'fitness_level' , 'type' , 'video' , 'alternative_video' ,
-    'exercise_id' , 'image' , 'status' , 'is_+18'];
+    'muscle_id' , 'image' , 'status' , 'is_+18'];
+
+    protected $casts = [
+        'fitness_level' => 'array'
+    ];
 
     public function scopeChangeStatus()
     {

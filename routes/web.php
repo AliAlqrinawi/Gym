@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DayTableController;
-use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\MuscleController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\RoleController;
@@ -43,10 +43,10 @@ Route::group([
     Route::resource('dayTable' , DayTableController::class);
     Route::put('status/dayTable/{id}', [DayTableController::class , 'status']);
 
-    Route::resource('exercise' , ExerciseController::class);
-    Route::put('status/exercise/{id}', [ExerciseController::class , 'status']);
+    Route::resource('muscle' , MuscleController::class);
+    Route::put('status/muscle/{id}', [MuscleController::class , 'status']);
 
-    
+
     Route::resource('video' , VideoController::class);
     Route::put('status/video/{id}', [VideoController::class , 'status']);
     Route::resource('coupon' , CouponController::class);
