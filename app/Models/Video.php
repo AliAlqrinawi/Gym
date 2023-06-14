@@ -9,7 +9,13 @@ class Video extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title_ar' , 'title_en' , 'duration_exercise' , 'fitness_level' , 'type' , 'video' , 'alternative_video' , 'exercise_id' , 'image' , 'status'];
+    protected $fillable = ['title_ar' , 'title_en' , 'sex' ,
+    'fitness_level' , 'type' , 'video' , 'alternative_video' ,
+    'muscle_id' , 'image' , 'status' , 'is_+18'];
+
+    protected $casts = [
+        'fitness_level' => 'array'
+    ];
 
     public function scopeChangeStatus()
     {

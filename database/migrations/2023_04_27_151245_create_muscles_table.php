@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('exercises', function (Blueprint $table) {
+        Schema::create('muscles', function (Blueprint $table) {
             $table->id();
             $table->string('title_ar');
 			$table->string('title_en');
-			$table->string('image');
+			$table->string('image')->nullable();
             $table->enum('status' , ['active' , 'inactive'])->default('active');
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('exercises');
+        Schema::dropIfExists('muscles');
     }
 };

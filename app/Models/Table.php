@@ -22,7 +22,7 @@ class Table extends Model
 
     public function dayTable()
     {
-        return $this->hasMany(Table::class , 'parent_id' , 'id')->where('is_parent' , 'exercise');
+        return $this->hasMany(Table::class , 'parent_id' , 'id')->where('is_parent' , 'muscle');
     }
 
     public function scopeChangeStatus()

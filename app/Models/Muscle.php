@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Exercise extends Model
+class Muscle extends Model
 {
     use HasFactory;
+    protected $table = 'exercises';
 
     protected $fillable = ['title_ar' , 'title_en' , 'image' , 'status'];
 

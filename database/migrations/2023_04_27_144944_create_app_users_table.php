@@ -28,7 +28,7 @@ return new class extends Migration
 			$table->date('exp_date')->nullable();
 			$table->integer('days')->nullable();
             $table->enum('sex', ['male', 'female']);
-			$table->string('days_exercise')->nullable();
+			$table->string('days_muscle')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

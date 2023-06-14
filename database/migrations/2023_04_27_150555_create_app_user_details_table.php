@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete()->cascadeOnUpdate();
 			$table->string('main_goal');
 			$table->text('training_goal');
-			$table->text('motivates_exercise');
+			$table->text('motivates_muscle');
 			$table->string('body_type');
 			$table->string('desired_body_type');
 			$table->text('target_zone');

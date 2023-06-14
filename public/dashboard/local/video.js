@@ -74,13 +74,12 @@ $(document).on('click', '#showModalEditVideo', function (e) {
                 $('#error_message').addClass("alert alert-danger");
                 $('#error_message').text(response.message);
             } else {
-                // 'exercise_id' => 'required|exists:exercises,id',
                 $('#id').val(id);
                 $('#title_en').val(response.data.title_en);
                 $('#title_ar').val(response.data.title_ar);
-                $('#duration_exercise').val(response.data.duration_exercise);
                 $('#fitness_level').val(response.data.fitness_level);
-                $("#exercise_id option[value='"+response.data.exercise_id+"']").prop("selected", true);
+                $("#muscle_id option[value='"+response.data.muscle_id+"']").prop("selected", true);
+                $("#sex option[value='"+response.data.sex+"']").prop("selected", true);
                 $("#type option[value='"+response.data.type+"']").prop("selected", true);
                 $("#status option[value='"+response.data.status+"']").prop("selected", true);
             }

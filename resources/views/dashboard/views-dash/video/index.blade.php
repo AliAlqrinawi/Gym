@@ -33,13 +33,14 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Duration Exercise') }} :</label>
-                                <input type="number" class="form-control" name="duration_exercise" required>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Fitness Level') }} :</label>
-                                <input type="number" class="form-control" name="fitness_level" required>
+                                <label for="exampleInputEmail1">{{ __('Fitness Level') }}</label>
+                                <select name="fitness_level[]" multiple="multiple" class="testselect2" required>
+                                    <option value="1">{{ __('First') }}</option>
+                                    <option value="2">{{ __('Second') }}</option>
+                                    <option value="3">{{ __('Third') }}</option>
+                                    <option value="4">{{ __('Fourth') }}</option>
+                                    <option value="5">{{ __('Fifth') }}</option>
+                                </select>
                             </div>
 
                             <div class="form-group col-md-6">
@@ -58,18 +59,26 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Exercise') }} :</label>
-                                <select name="exercise_id" class="form-control">
-                                    @foreach ($exercise as $value)
+                                <label for="exampleInputEmail1">{{ __('Muscle') }} :</label>
+                                <select name="muscle_id" class="form-control">
+                                    @foreach ($muscle as $value)
                                     <option value="{{ $value->id }}">{{ app()->getLocale() == 'en' ? $value->title_en : $value->title_ar }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Type') }} :</label>
+                                <label for="exampleInputEmail1">{{ __('Sex') }} :</label>
+                                <select name="sex" class="form-control">
+                                    <option value="male">{{ __('Male') }}</option>
+                                    <option value="female">{{ __('Female') }}</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">{{ __('TypeG') }} :</label>
                                 <select name="type" class="form-control">
-                                    <option value="home">{{ __('Home') }}</option>
+                                    <option value="home">{{ __('HomeG') }}</option>
                                     <option value="gym">{{ __('Gym') }}</option>
                                 </select>
                             </div>
@@ -118,14 +127,20 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Duration Exercise') }} :</label>
-                                <input type="number" class="form-control" name="duration_exercise" id="duration_exercise" required>
+                                <p class="mg-b-10">{{ __('Fitness Level') }}</p>
+                                <select name="fitness_level[]" id="fitness_level" multiple="multiple" class="testselect2" required>
+                                    <option value="1">{{ __('First') }}</option>
+                                    <option value="2">{{ __('Second') }}</option>
+                                    <option value="3">{{ __('Third') }}</option>
+                                    <option value="4">{{ __('Fourth') }}</option>
+                                    <option value="5">{{ __('Fifth') }}</option>
+                                </select>
                             </div>
 
-                            <div class="form-group col-md-6">
+                            {{-- <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Fitness Level') }} :</label>
                                 <input type="number" class="form-control" name="fitness_level" id="fitness_level" required>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Image') }} :</label>
@@ -142,10 +157,19 @@
                                 <input type="file" class="form-control" name="alternative_video" id="alternative_video" required>
                             </div>
 
+
                             <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Exercise') }} :</label>
-                                <select name="exercise_id" id="exercise_id" class="form-control">
-                                    @foreach ($exercise as $value)
+                                <label for="exampleInputEmail1">{{ __('Sex') }} :</label>
+                                <select name="sex" id="sex" class="form-control">
+                                    <option value="male">{{ __('Male') }}</option>
+                                    <option value="female">{{ __('Female') }}</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">{{ __('Muscle') }} :</label>
+                                <select name="muscle_id" id="muscle_id" class="form-control">
+                                    @foreach ($muscle as $value)
                                     <option value="{{ $value->id }}">{{ app()->getLocale() == 'en' ? $value->title_en : $value->title_ar }}</option>
                                     @endforeach
                                 </select>
@@ -248,5 +272,8 @@
     <script src="{{ asset('dashboard/plugins/datatable/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('dashboard/plugins/datatable/responsive.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('dashboard/js/table-data.js') }}"></script>
+    <script src="{{ asset('dashboard/plugins/sumoselect/jquery.sumoselect.js') }}"></script>
+    <script src="{{ asset('dashboard/js/advanced-form-elements.js') }}"></script>
+    <script src="{{ asset('dashboard/js/select2.js') }}"></script>
     <script src="{{ asset('dashboard/local/video.js') }}"></script>
 @stop

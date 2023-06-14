@@ -15,15 +15,16 @@ return new class extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('exercise_id')->constrained('exercises', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('muscle_id')->constrained('muscles', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('title_ar');
 			$table->string('title_en');
-			$table->string('duration_exercise');
-			$table->string('fitness_level');
+			$table->text('fitness_level');
 			$table->string('image');
 			$table->string('video');
-			$table->enum('type' , ['home' , 'gym'])->default('gym');
 			$table->string('alternative_video');
+			$table->boolean('is_+18')->default(1);
+			$table->enum('sex' , ['male' , 'female']);
+			$table->enum('type' , ['home' , 'gym'])->default('gym');
             $table->enum('status' , ['active' , 'inactive'])->default('active');
             $table->timestamps();
         });
