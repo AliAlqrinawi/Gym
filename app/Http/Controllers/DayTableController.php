@@ -82,6 +82,7 @@ class DayTableController extends Controller
     public function store(Request $request)
     {
         $dayTableData = $request->all();
+        return $dayTableData;
         $validator = Validator($dayTableData, [
             'title_en' => 'required|string|min:3|max:255',
             'title_ar' => 'required|string|min:3|max:255',
