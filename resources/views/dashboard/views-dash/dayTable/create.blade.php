@@ -9,84 +9,6 @@
 
 @section('content')
 
-    <div class="modal" id="modalDayTableAdd">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title">{{ __('DayTable') }}</h6>
-                    <button aria-label="Close" class="close" data-bs-dismiss="modal" type="button"><span
-                            aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <ul id="list_error_message"></ul>
-                    <form id="formDayTableAdd" enctype="multipart/form-data">
-                        <div class="row">
-
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Title in English') }} :</label>
-                                <input type="text" class="form-control" name="title_en" required>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Title in Arabic') }} :</label>
-                                <input type="text" class="form-control" name="title_ar" required>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Description in English') }} :</label>
-                                <input type="text" class="form-control" name="description_en" required>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Description in Arabic') }} :</label>
-                                <input type="text" class="form-control" name="description_ar" required>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Image') }} :</label>
-                                <input type="file" class="form-control" name="image" required>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <p class="mg-b-10">{{ __('Videos') }}</p>
-                                <select name="id_videos[]" multiple="multiple" class="testselect2">
-                                    @foreach ($videos as $key => $value)
-                                        <option {{ $key == 0 ? 'selected' : '' }} value="{{ $value->id }}">
-                                            {{ app()->getLocale() == 'en' ? $value->title_en : $value->title_ar }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Parent') }} :</label>
-                                <select name="parent_id" class="form-control">
-                                    @foreach ($table as $value)
-                                        <option value="{{ $value->id }}">
-                                            {{ app()->getLocale() == 'en' ? $value->title_en : $value->title_ar }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label for="exampleInputEmail1">{{ __('Status') }} :</label>
-                                <select name="status" class="form-control">
-                                    <option value="active">{{ __('ACTIVE') }}</option>
-                                    <option value="inactive">{{ __('NACTIVE') }}</option>
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success" id="addDayTable">{{ __('Save') }}</button>
-                            <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button"
-                                id="close">{{ __('Close') }}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="row">
         <div class="col-xl-12">
             <div class="card mg-b-20">
@@ -98,7 +20,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form id="formDayTableAdd" enctype="multipart/form-data">
+                    <form action="{{ route('dayTable.store') }}" enctype="multipart/form-data" method="POST">
+                        @csrf
                         <div class="row">
 
                             <div class="form-group col-md-6">
@@ -143,14 +66,14 @@
                                 </div>
                                 <div class="clearfix"></div>
                                 <!-- Repeater Items -->
-                                <div class="items" data-group="test">
+                                <div class="items" data-group="muscle-group">
                                     <!-- Repeater Content -->
 
                                     <div class="item-content row">
                                         <div class="form-group col-md-6">
                                             <p class="mg-b-10">{{ __('Muscles') }}</p>
                                             <select name="id_muscles" onchange="onchange1(this)" data-name="id_muscles"
-                                                id="muscles" class="form-control ali">
+                                                id="muscles" class="form-control">
                                                 @foreach ($muscles as $key => $value)
                                                     <option {{ $key == 0 ? 'selected' : '' }}
                                                         value="{{ $value->id }}">
@@ -163,6 +86,7 @@
                                         <div class="form-group col-md-6">
                                             @include('dashboard.views-dash.dayTable.videosInput')
                                         </div>
+
                                         <script>
                                             window.asd = $('.SlectBox').SumoSelect({
                                                 csvDispCount: 3,
