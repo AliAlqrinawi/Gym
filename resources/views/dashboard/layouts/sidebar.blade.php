@@ -223,19 +223,19 @@
                     src="https://img.icons8.com/?size=512&id=46089&format=png&color=1A6DFF,C822FF" />
                     <span class="side-menu__label">{{ __('Coupons') }}</span></a>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item" href="{{ route('package.index') }}">
                         <img width="30" style="margin-inline-end: 14px;"
                         src="https://img.icons8.com/?size=512&id=46106&format=png&color=1A6DFF,C822FF" />
                     <span class="side-menu__label">{{ __('Packages') }}</span></a>
-                </li>
+                </li> --}}
                 <li class="slide">
                     <a class="side-menu__item" href="{{ route('layout.index') }}">
                     <img width="30" style="margin-inline-end: 14px;"
                     src="https://img.icons8.com/?size=512&id=48257&format=png&color=1A6DFF,C822FF" />
                     <span class="side-menu__label">{{ __('Layouts') }}</span></a>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);">
                         <img class="side-menu__icon mCS_img_loaded" style=" width: 30px; height: 30px;"
                         src="https://img.icons8.com/nolan/64/settings--v1.png">
@@ -279,7 +279,7 @@
                             </div>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
             </ul>
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                     width="24" height="24" viewBox="0 0 24 24">
